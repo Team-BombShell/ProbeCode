@@ -10,16 +10,16 @@
 #include "thermistor.h"
 
 
-void adc_init(void){	//This is for PA0
-	PORTA.DIRCLR = 0b00000001;
-	PORTA.DIR = 0b11111110;
-	ADCA.CTRLA = 0b00000001;
+void adc_init(void){	//This is for PA6... mostly
+	PORTA.DIRCLR = 0b01000000;
+	PORTA.DIR = 0b10111111;
+	ADCA.CTRLA = 0b01000000;
 	ADCA.CTRLB = 0b00000000;
 	ADCA.REFCTRL = 0b00010000;
 	ADCA.PRESCALER = 0b00000101;
 	ADCA.CAL = adc_get_calibration_data(ADC_CAL_ADCA);
 	
-	ADCA.CH0.CTRL = 0b00000001;
+	ADCA.CH0.CTRL = 0b01000000;
 	ADCA.CH0.MUXCTRL = 0b00000000;
 }
 
