@@ -52,7 +52,13 @@ void timer_founter_init(uint16_t period, uint16_t duty_cycle){
 	//TCA0.CCD = TCA0.PER-(TCA0.PER/10);
 }
 
-
+void timer_counter_buzzer(){
+	PORTF.DIR = 0b11111111;
+	TCF1.CTRLA = 0b00000111;
+	TCF1.CTRLB = 0b11110011;
+	TCF1.PER = 12;
+	TCF1.CCA = .9 * TCF1.PER;
+	TCF1.CCB = TCF1.PER/1;
 
 /* Timer Counter init for LEDs
 static void my_cfa_callback(void)
