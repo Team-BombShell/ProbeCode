@@ -10,55 +10,55 @@
 
    void timer_bounter_init(uint16_t period, uint16_t duty_cycle){
 	   PORTA.DIRSET = 0b00000010;
-	   TCA0.CTRLA = 0b00000111;
-	   TCA0.CTRLB = 0b10000011;
-	   TCA0.PER = (uint16_t)(period);
+	   TCA1.CTRLA = 0b00000111;
+	   TCA1.CTRLB = 0b10000011;
+	   TCA1.PER = (uint16_t)(period);
 	   //TCA0.CCA = TCA0.PER-(TCA0.PER/10);
 	   //TCA0.CCB = TCA0.PER-(TCA0.PER/10);
 	   //TCA0.CCC = TCA0.PER-(TCA0.PER/10);
-	   TCA0.CCD = TCA0.PER*((float)duty_cycle/100);
+	   TCA1.CCD = TCA0.PER*((float)duty_cycle/100);
    }
    
   void timer_counter_init(uint16_t period, uint16_t duty_cycle){
 	  PORTA.DIRSET = 0b00000100;
-	  TCA0.CTRLA = 0b00000111;
-	  TCA0.CTRLB = 0b10000011;
-	  TCA0.PER = (uint16_t)(period);
+	  TCA2.CTRLA = 0b00000111;
+	  TCA2.CTRLB = 0b10000011;
+	  TCA2.PER = (uint16_t)(period);
 	  //TCA0.CCA = TCA0.PER-(TCA0.PER/10);
 	  //TCA0.CCB = TCA0.PER-(TCA0.PER/10);
 	  //TCA0.CCC = TCA0.PER-(TCA0.PER/10);
-	  TCA0.CCD = TCA0.PER*((float)duty_cycle/100);
+	  TCA2.CCD = TCA0.PER*((float)duty_cycle/100);
   }
   
  void timer_dounter_init(uint16_t period, uint16_t duty_cycle){
 	 PORTA.DIRSET = 0b00001000;
-	 TCA0.CTRLA = 0b00000111;
-	 TCA0.CTRLB = 0b10000011;
-	 TCA0.PER = (uint16_t)(period);
+	 TCA3.CTRLA = 0b00000111;
+	 TCA3.CTRLB = 0b10000011;
+	 TCA3.PER = (uint16_t)(period);
 	 //TCA0.CCA = TCA0.PER-(TCA0.PER/10);
 	 //TCA0.CCB = TCA0.PER-(TCA0.PER/10);
 	 //TCA0.CCC = TCA0.PER-(TCA0.PER/10);
-	 TCA0.CCD = TCA0.PER*((float)duty_cycle/100);
+	 TCA3.CCD = TCA0.PER*((float)duty_cycle/100);
  }
  
 void timer_founter_init(uint16_t period, uint16_t duty_cycle){
 	PORTA.DIRSET = 0b00010000;
-	TCA0.CTRLA = 0b00000111;
-	TCA0.CTRLB = 0b00010011;
-	TCA0.PER = (uint16_t)(period);
-	TCA0.CCA = TCA0.PER*((float)duty_cycle/100);
+	TCA4.CTRLA = 0b00000111;
+	TCA4.CTRLB = 0b00010011;
+	TCA4.PER = (uint16_t)(period);
+	TCA4.CCA = TCA0.PER*((float)duty_cycle/100);
 	//TCA0.CCB = TCA0.PER-(TCA0.PER/10);
 	//TCA0.CCC = TCA0.PER-(TCA0.PER/10);
 	//TCA0.CCD = TCA0.PER-(TCA0.PER/10);
 }
 
 void timer_counter_buzzer(){ //Need to figure out which numbers to change below
-	PORTE.DIR = 0b11111111;
-	TCE1.CTRLA = 0b00000111;
-	TCE1.CTRLB = 0b11110011;
-	TCE1.PER = 12;
-	TCE1.CCA = .9 * TCE1.PER;
-	TCE1.CCB = TCE1.PER/1;
+	PORTA.DIR = 0b11111111;
+	TCA0.CTRLA = 0b00000111;
+	TCA0.CTRLB = 0b11110011;
+	TCA0.PER = 12;
+	TCA0.CCA = .9 * TCA0.PER;
+	TCA0.CCB = TCA0.PER/1;
 
 /* Timer Counter init for LEDs
 static void my_cfa_callback(void)
