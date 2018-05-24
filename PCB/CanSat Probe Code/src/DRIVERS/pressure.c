@@ -15,27 +15,27 @@ uint16_t c5;
 uint16_t c6;
 
 
-void SPI_init(void){
-	PORTC.DIRSET = 0b10110000;
-	PORTC.DIRCLR = 0b01000000;
-	PORTC.OUTSET = 0b10110000;
-	SPIC.CTRL = 0b01010011;
+void SPI_init(void){ //Convert these numbers somehow
+	PORTD.DIRSET = 0b10110000;
+	PORTD.DIRCLR = 0b01000000;
+	PORTD.OUTSET = 0b10110000;
+	SPID.CTRL = 0b01010011;
 }
 
 void SPI_write(uint8_t data){
-	SPIC.DATA = data;
-	while(!(SPIC.STATUS>>7));
+	SPID.DATA = data;
+	while(!(SPID.STATUS>>7));
 }
 
 uint8_t spi_read (void){
 	SPI_write(0xFF);
-	return SPIC.DATA;
+	return SPID.DATA;
 }
 
 void ms5607_init(void){
-	PORTC.OUTCLR = 0b00010000;
+	PORTD.OUTCLR = 0b00000010;
 	SPI_write(0x1E);
-	PORTC.OUTSET = 0b00010000;
+	PORTD.OUTSET = 0b00000010;
 	delay_ms(10);
 	c1 = prom_read(0xA2);
 	//printf("c1: %u \n", c1);
@@ -53,11 +53,11 @@ void ms5607_init(void){
 
 uint16_t prom_read(uint8_t command){
 	uint16_t data;
-	PORTC.OUTCLR = 0b00010000;
+	PORTD.OUTCLR = 0b00000010;
 	SPI_write(command);
 	data = ((uint16_t)spi_read())<<8;	//Bitshifting
 	data += spi_read();
-	PORTC.OUTSET = 0b00010000;
+	PORTD.OUTSET = 0b00000010;
 	delay_ms(1);
 	//printf("data: %lu \n", data);
 	return data;
@@ -65,16 +65,16 @@ uint16_t prom_read(uint8_t command){
 
 uint32_t data_read(uint8_t command){
 	uint32_t data;
-	PORTC.OUTCLR = 0b00010000;
+	PORTD.OUTCLR = 0b00000010;
 	SPI_write(command);
-	PORTC.OUTSET = 0b00010000;
+	PORTD.OUTSET = 0b00000010;
 	delay_ms(9);
-	PORTC.OUTCLR = 0b00010000;
+	PORTD.OUTCLR = 0b00000010;
 	SPI_write(0x00);
 	data = ((uint32_t)spi_read())<<16;
 	data += ((uint32_t)spi_read())<<8;
 	data += spi_read();
-	PORTC.OUTSET = 0b00010000;
+	PORTD.OUTSET = 0b00000010;
 	return data;
 }
 
