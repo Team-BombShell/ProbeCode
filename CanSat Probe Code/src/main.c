@@ -101,6 +101,7 @@ int main (void)
 		altitude = Get_altitude(101300, pressure);
 		smooth_altitude = (int32_t)(smoothing_factor * altitude + (1-smoothing_factor)*smooth_altitude);
 		my_time = my_time + 0.250;
+		timer_founter_init(6249, 10);
 		//printf("Temperature = %u \n", temperature);
 		//printf("Pressure = %lu\n", pressure);
 		//printf("Altitude = %li \n", (int32_t)altitude);

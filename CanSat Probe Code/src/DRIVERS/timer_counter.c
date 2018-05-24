@@ -8,26 +8,50 @@
 #include "Drivers/timer_counter.h"
 #include <asf.h>
 
+   void timer_bounter_init(uint16_t period, uint16_t duty_cycle){
+	   PORTA.DIRSET = 0b00000010;
+	   TCA0.CTRLA = 0b00000111;
+	   TCA0.CTRLB = 0b10000011;
+	   TCA0.PER = (uint16_t)(period);
+	   //TCA0.CCA = TCA0.PER-(TCA0.PER/10);
+	   //TCA0.CCB = TCA0.PER-(TCA0.PER/10);
+	   //TCA0.CCC = TCA0.PER-(TCA0.PER/10);
+	   TCA0.CCD = TCA0.PER*((float)duty_cycle/100);
+   }
+   
+  void timer_counter_init(uint16_t period, uint16_t duty_cycle){
+	  PORTA.DIRSET = 0b00000100;
+	  TCA0.CTRLA = 0b00000111;
+	  TCA0.CTRLB = 0b10000011;
+	  TCA0.PER = (uint16_t)(period);
+	  //TCA0.CCA = TCA0.PER-(TCA0.PER/10);
+	  //TCA0.CCB = TCA0.PER-(TCA0.PER/10);
+	  //TCA0.CCC = TCA0.PER-(TCA0.PER/10);
+	  TCA0.CCD = TCA0.PER*((float)duty_cycle/100);
+  }
+  
+ void timer_dounter_init(uint16_t period, uint16_t duty_cycle){
+	 PORTA.DIRSET = 0b00001000;
+	 TCA0.CTRLA = 0b00000111;
+	 TCA0.CTRLB = 0b10000011;
+	 TCA0.PER = (uint16_t)(period);
+	 //TCA0.CCA = TCA0.PER-(TCA0.PER/10);
+	 //TCA0.CCB = TCA0.PER-(TCA0.PER/10);
+	 //TCA0.CCC = TCA0.PER-(TCA0.PER/10);
+	 TCA0.CCD = TCA0.PER*((float)duty_cycle/100);
+ }
+ 
 void timer_founter_init(uint16_t period, uint16_t duty_cycle){
-	PORTF.DIRSET = 0b00000001;
-	TCF0.CTRLA = 0b00000111;
-	TCF0.CTRLB = 0b00010011;
-	TCF0.PER = (uint16_t)(period);
-	TCF0.CCA = TCF0.PER*((float)duty_cycle/100);
-	//TCF0.CCB = TCF0.PER-(TCF0.PER/10);
-	//TCF0.CCC = TCF0.PER-(TCF0.PER/10);
-	//TCF0.CCD = TCF0.PER-(TCF0.PER/10);
+	PORTA.DIRSET = 0b00010000;
+	TCA0.CTRLA = 0b00000111;
+	TCA0.CTRLB = 0b00010011;
+	TCA0.PER = (uint16_t)(period);
+	TCA0.CCA = TCA0.PER*((float)duty_cycle/100);
+	//TCA0.CCB = TCA0.PER-(TCA0.PER/10);
+	//TCA0.CCC = TCA0.PER-(TCA0.PER/10);
+	//TCA0.CCD = TCA0.PER-(TCA0.PER/10);
 }
-// void timer_dounter_init(uint16_t period, uint16_t duty_cycle){	
-// 	PORTD.DIRSET = 0b00001000;
-// 	TCD0.CTRLA = 0b00000111;
-// 	TCD0.CTRLB = 0b10000011;
-// 	TCD0.PER = (uint16_t)(period);
-// 	//TCD0.CCA = TCF0.PER-(TCF0.PER/10);
-// 	//TCF0.CCB = TCF0.PER-(TCF0.PER/10);
-// 	//TCF0.CCC = TCF0.PER-(TCF0.PER/10);
-// 	TCD0.CCD = TCD0.PER*((float)duty_cycle/100);
-// }
+
 
 
 /* Timer Counter init for LEDs
