@@ -338,6 +338,12 @@
     <Compile Include="src\DRIVERS\LED.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\DRIVERS\mechanics.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\DRIVERS\mechanics.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\DRIVERS\mpu9250.c">
       <SubType>compile</SubType>
     </Compile>
