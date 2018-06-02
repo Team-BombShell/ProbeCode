@@ -1,0 +1,36 @@
+﻿------ Build started: Project: OneMonth, Configuration: Debug AVR ------
+Build started.
+Project "OneMonth.cproj" (default targets):
+Target "PreBuildEvent" skipped, due to false condition; ('$(PreBuildEvent)'!='') was evaluated as (''!='').
+Target "CoreBuild" in file "C:\Program Files (x86)\Atmel\Studio\7.0\Vs\Compiler.targets" from project "c:\users\mason\Documents\Atmel Studio\7.0\OneMonth\OneMonth\OneMonth.cproj" (target "Build" depends on it):
+	Task "RunCompilerTask"
+		Shell Utils Path C:\Program Files (x86)\Atmel\Studio\7.0\shellUtils
+		C:\Program Files (x86)\Atmel\Studio\7.0\shellUtils\make.exe all --jobs 4 --output-sync 
+		Building file: ../src/main.c
+		Invoking: AVR/GNU C Compiler : 5.4.0
+		"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe"  -x c -DDEBUG -DIOPORT_XMEGA_COMPAT -DBOARD=XMEGA_A1_XPLAINED  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.1.68\include" -I"../src/ASF/common/boards" -I"../src/ASF/xmega/utils/preprocessor" -I"../src/ASF/xmega/utils" -I"../src/ASF/common/utils" -I"../src/ASF/xmega/boards/xmega_a1_xplained" -I"../src/ASF/xmega/boards" -I"../src/ASF/common/services/gpio" -I"../src/ASF/common/services/ioport" -I"../src" -I"../src/config" -I"../src/ASF/xmega/drivers/cpu" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=atxmega128a1 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.1.68\gcc\dev\atxmega128a1" -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -MD -MP -MF "src/main.d" -MT"src/main.d" -MT"src/main.o"   -o "src/main.o" "../src/main.c" 
+		Finished building: ../src/main.c
+		Building target: OneMonth.elf
+		Invoking: AVR/GNU Linker : 5.4.0
+		"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe" -o OneMonth.elf  src/ASF/common/services/clock/xmega/sysclk.o src/ASF/xmega/drivers/cpu/ccp.o src/ASF/common/services/ioport/xmega/ioport_compat.o src/ASF/xmega/boards/xmega_a1_xplained/init.o src/main.o   -Wl,-Map="OneMonth.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atxmega128a1 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.1.68\gcc\dev\atxmega128a1" -Wl,--relax -Wl,--section-start=.BOOT=0x20000  
+		Finished building target: OneMonth.elf
+		"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "OneMonth.elf" "OneMonth.hex"
+		"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "OneMonth.elf" "OneMonth.eep" || exit 0
+		"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "OneMonth.elf" > "OneMonth.lss"
+		"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "OneMonth.elf" "OneMonth.srec"
+		"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "OneMonth.elf"
+		   text	   data	    bss	    dec	    hex	filename
+		    716	      0	      0	    716	    2cc	OneMonth.elf
+	Done executing task "RunCompilerTask".
+	Task "RunOutputFileVerifyTask"
+				Program Memory Usage 	:	716 bytes   0.5 % Full
+				Data Memory Usage 		:	0 bytes   0.0 % Full
+	Done executing task "RunOutputFileVerifyTask".
+Done building target "CoreBuild" in project "OneMonth.cproj".
+Target "PostBuildEvent" skipped, due to false condition; ('$(PostBuildEvent)' != '') was evaluated as ('' != '').
+Target "Build" in file "C:\Program Files (x86)\Atmel\Studio\7.0\Vs\Avr.common.targets" from project "c:\users\mason\Documents\Atmel Studio\7.0\OneMonth\OneMonth\OneMonth.cproj" (entry point):
+Done building target "Build" in project "OneMonth.cproj".
+Done building project "OneMonth.cproj".
+
+Build succeeded.
+========== Build: 1 succeeded or up-to-date, 0 failed, 0 skipped ==========
