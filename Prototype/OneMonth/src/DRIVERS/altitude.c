@@ -6,9 +6,9 @@
 extern int32_t TEMP;
 
 float Get_altitude(uint32_t initial, uint32_t pressure){
-	printf("pressure = %lu \n", pressure);
-	printf("temperature = %i \n", (uint16_t) TEMP);
-	float altitude = (((287.058 * (((float)(TEMP)/100)+273.15)/9.8))*log((float)initial/get_pressure())*3.28);
+	//printf("pressure = %lu \n", pressure);
+	//printf("temperature = %i \n", (uint16_t) TEMP/100);
+	float altitude = (((287.058 * (((float)(TEMP/100)+273.15)/9.8))*log((float)initial/get_pressure())*3.28));
 	printf("altitude = %i \n", (int16_t)altitude);
 	return altitude;
 }

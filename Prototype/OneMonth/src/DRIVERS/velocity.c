@@ -1,6 +1,6 @@
-#include<asf.h>
+/*#include<asf.h>
 #include"altitude.c"
 #include"velocity.h"
 #include <math.h>
 
-float get_velocity()
+float get_velocity()*/

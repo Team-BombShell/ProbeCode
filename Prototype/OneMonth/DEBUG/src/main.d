@@ -65,7 +65,8 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/xmega/boards/xmega_a1_xplained/led.h \
  ../src/Drivers/timer_counter.h ../src/Drivers/usart.h \
  ../src/Drivers/pressure.h ../src/Drivers/thermistor.h \
- ../src/Drivers/altitude.h \
+ ../src/Drivers/altitude.h ../src/DRIVERS/mpu9250.h \
+ ../src/DRIVERS/mechanics.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h
 
 ../src/asf.h:
@@ -217,5 +218,9 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../src/Drivers/thermistor.h:
 
 ../src/Drivers/altitude.h:
+
+../src/DRIVERS/mpu9250.h:
+
+../src/DRIVERS/mechanics.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h:
