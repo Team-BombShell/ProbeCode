@@ -65,6 +65,7 @@ src/Drivers/altitude.d src/Drivers/altitude.o: ../src/Drivers/altitude.c \
  ../src/ASF/xmega/drivers/tc/tc.h \
  ../src/ASF/xmega/boards/xmega_a1_xplained/led.h \
  ../src/Drivers/altitude.h ../src/Drivers/pressure.h \
+ ../src/Drivers/thermistor.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h
 
 ../src/asf.h:
@@ -210,5 +211,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../src/Drivers/altitude.h:
 
 ../src/Drivers/pressure.h:
+
+../src/Drivers/thermistor.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
