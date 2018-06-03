@@ -586,6 +586,12 @@
     <Compile Include="src\Drivers\altitude.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\Drivers\GPS.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Drivers\GPS.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\Drivers\LED.c">
       <SubType>compile</SubType>
     </Compile>
