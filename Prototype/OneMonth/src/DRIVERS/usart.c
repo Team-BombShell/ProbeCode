@@ -67,4 +67,8 @@ char* usart_rx(USART_t* usart_channel, char* read_buffer){
 	return read_buffer;
 }
 	
+ISR(USART_RX_vect){
+	char usart_rx_char = UDR; 
+	
+}
 
