@@ -41,11 +41,30 @@ void usart_init(void){
 }
 
 
-void openlogger_tx(float data[16]){
+void usart_tx(USART_t* usart_channel, const char* text, ...){
+	char write_buffer[256];
+	va_list args;
+	va_start(args, text);
+	vsprintf(write_buffer, text, args);
+	va_end(args);
 	
-	//TODO: 
+	
+	for(int i = 0; i < sizeof(write_buffer); i++)
+	{
+		usart_putchar(usart_channel, write_buffer[i]);
+	}
 }
 
-void xbee_tx(float data[16]){
-	//TODO:
+
+char* usart_rx(USART_t* usart_channel, char* read_buffer){
+	int loc = 0;
+	while(usart_rx_is_complete(usart_channel))
+	{
+		read_buffer[loc] = usart_getchar(usart_channel);
+		loc++;
+		
+	}
+	return read_buffer;
 }
+	
+

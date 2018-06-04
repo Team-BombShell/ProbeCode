@@ -284,5 +284,3 @@ void blink (int time_on, int time_off){
 }
 
 
-// If only it would push to github...
-// jk it works now

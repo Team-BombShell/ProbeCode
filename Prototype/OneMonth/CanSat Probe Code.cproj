@@ -390,6 +390,9 @@
     <Folder Include="src\Drivers" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\register_definitions.h">
+      <SubType>compile</SubType>
+    </Compile>
     <None Include="src\ASF\common\services\delay\xmega\cycle_counter.h">
       <SubType>compile</SubType>
     </None>

@@ -10,7 +10,8 @@
 #define USART_H_
 
 void usart_init(void);
-void openlogger_tx(float data[16]);
-void xbee_tx(float data[16]);
+
+void usart_tx(USART_t* usart_channel, const char* text, ...);
+char * usart_rx(USART_t* usart_channel,char* read_buffer);
 
 #endif /* USART_H_ */
