@@ -2,13 +2,11 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-<<<<<<< HEAD
-src\Drivers\RTC.c
-=======
 src\ASF\xmega\drivers\twi\twim.c
 
 src\ASF\xmega\drivers\twi\twis.c
->>>>>>> 38bdcaffb84b9779d14a33d462fa768e97092c84
+
+src\Drivers\RTC.c
 
 src\ASF\common\services\clock\xmega\sysclk.c
 

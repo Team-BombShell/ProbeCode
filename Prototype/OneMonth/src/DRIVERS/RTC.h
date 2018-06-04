@@ -26,11 +26,11 @@
 void rtc_twi_init();
 void rtc_write_register(uint8_t regi,uint8_t val);
 uint8_t rtc_read_register(uint8_t regi);
-void rtc_setTime(uint8_t seconds, uint8_t minutes, uint8_t hours)
-uint8_t rtc_getSeconds(void)
-uint8_t rtc_getMinutes(void)
-uint8_t rtc_getHours(void)
-uint32_t rtc_getTotalSeconds(void)
+void rtc_setTime(uint8_t seconds, uint8_t minutes, uint8_t hours);
+uint8_t rtc_getSeconds(void);
+uint8_t rtc_getMinutes(void);
+uint8_t rtc_getHours(void);
+uint32_t rtc_getTotalSeconds(void);
 
 
 #endif /* RTC_H_ */

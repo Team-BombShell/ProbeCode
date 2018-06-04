@@ -9,7 +9,7 @@
 #include "RTC.h"
 #include <asf.h>
 uint8_t writeData[RTC_PACKET_LENGTH];
-uint8_t readData[RTC_PACKET_LENGTH};
+uint8_t readData[RTC_PACKET_LENGTH];
 
 twi_package_t write_packet = {
 	.addr           =   0x00,
@@ -25,7 +25,7 @@ twi_package_t read_packet = {
 	.chip           =   RTC_SLAVE_ADDR,
 	.buffer         =   (void*)writeData,
 	.length         =   sizeof(writeData)
-};2.3
+};
 static inline uint8_t BCDtoDEC(uint8_t number)
 {
 	
