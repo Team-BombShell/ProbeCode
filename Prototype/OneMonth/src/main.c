@@ -72,6 +72,19 @@ int main (void)
 	sysclk_enable_peripheral_clock(&ADCA);
 	adc_init();
 	
+	uint16_t teamID = 5186;
+	uint8_t my_time;
+	uint8_t packetCount;
+	float voltage;
+	uint32_t GPSTime;
+	uint32_t GPSLat;
+	uint32_t GPSLong;
+	uint32_t GPSAlt;
+	uint32_t GPSSats;
+	float tiltX;
+	float tiltY;	
+	float tiltZ;	
+	
 	//printf("Is this thing on?\n");
 	uint32_t initial = get_pressure();
 	uint32_t pressure;
@@ -80,11 +93,11 @@ int main (void)
 	int32_t altitude;
 	int32_t initial_altitude = 0;
 	int32_t smooth_altitude = 0;
-	uint8_t my_time;
+	
 	//uint16_t period;
 	//uint16_t duty_cycle;
 	double smoothing_factor = 0.90;
-		
+	
 	uint8_t state = 0;
 	printf("Is this thing on?\n");
 
@@ -111,6 +124,13 @@ int main (void)
 		//printf("Pressure = %lu\n", pressure);
 		//printf("Altitude = %li \n", (int32_t)altitude);
 		delay_ms(15.625);
+		
+		float data[16] = {teamID, my_time, packetCount, altitude, pressure, 
+			TEMP, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats,
+			tiltX,tiltY,tiltZ,state};
+			
+		openlogger_tx(data);
+		
 		
 		PORTE.DIRSET = 0b01010101;
 		PORTE.OUTSET = 0b01010101;

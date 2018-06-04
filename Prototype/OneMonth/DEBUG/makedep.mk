@@ -32,6 +32,8 @@ src\ASF\xmega\drivers\usart\usart.c
 
 src\Drivers\altitude.c
 
+src\Drivers\GPS.c
+
 src\Drivers\LED.c
 
 src\Drivers\mechanics.c
