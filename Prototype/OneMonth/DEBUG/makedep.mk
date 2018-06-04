@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\Drivers\RTC.c
+
 src\ASF\common\services\clock\xmega\sysclk.c
 
 src\ASF\common\services\serial\usart_serial.c
