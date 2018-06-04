@@ -390,6 +390,12 @@
     <Folder Include="src\Drivers" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Drivers\RTC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Drivers\RTC.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\register_definitions.h">
       <SubType>compile</SubType>
     </Compile>
