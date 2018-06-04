@@ -9,7 +9,7 @@
 //interrupts?
 //self test
 //scaling and calibration
-/*
+
 #include "mpu9250.h"
 #include "config/conf_board.h"
 
@@ -390,4 +390,4 @@ uint8_t is_sample_timer_flag_set(void)
 	{
 		return 0;
 	}
-}*/
+}

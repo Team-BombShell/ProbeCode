@@ -2,6 +2,10 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\ASF\xmega\drivers\twi\twim.c
+
+src\ASF\xmega\drivers\twi\twis.c
+
 src\ASF\common\services\clock\xmega\sysclk.c
 
 src\ASF\common\services\serial\usart_serial.c
