@@ -6,6 +6,11 @@
  */ 
 #include <asf.h>
 #include "Drivers/usart_comms.h"
+#include "register_definitions.h"
+#include "Drivers/mechanics.h"
+
+extern uint8_t state;
+volatile char xbee_rx_temporary;
 
 void usart_init(void){
 	
@@ -47,7 +52,7 @@ void usart_tx(USART_t* usart_channel, const char* text, ...){
 	va_start(args, text);
 	vsprintf(write_buffer, text, args);
 	va_end(args);
-	
+	write_buffer[255] = '!';
 	
 	for(int i = 0; i < sizeof(write_buffer); i++)
 	{
@@ -67,8 +72,45 @@ char* usart_rx(USART_t* usart_channel, char* read_buffer){
 	return read_buffer;
 }
 	
-ISR(USART_RX_vect){
-	//char usart_rx_char = UDR; 
+ISR(USARTC0_RXC_vect){
+	//If we send reset things to the board
+	xbee_rx_temporary = usart_getchar(&USARTC0);
+	
+	switch(xbee_rx_temporary){
+		case '!':						//reset MCU 
+			wdt_reset_mcu();
+			break;
+		case '@':						//change to flight state 0
+			
+			break;
+		case '#':						//change to flight state 1
+		
+			break;
+		case '$':						//change to flight state 2
+		
+			break;
+		case '%':						//change to flight state 3
+		
+			break;
+		case '^':						//deploy heatshield
+			
+			break;
+		case '&':						//deploy parachute
+		
+			break;
+		case '*':						//detatching heatshield
+		
+			break;
+		case '(':						//buzzer on
+		
+			break;
+		case ')':						//buzzer off
+		
+			break;
+		case '_':						//camera on
+		
+			break;
+	}
 	
 }
 

@@ -1,6 +1,5 @@
-src/ASF/xmega/drivers/twi/twim.d src/ASF/xmega/drivers/twi/twim.o: \
- ../src/ASF/xmega/drivers/twi/twim.c ../src/ASF/xmega/drivers/twi/twim.h \
- ../src/ASF/xmega/utils/compiler.h \
+src/ASF/xmega/drivers/wdt/wdt.d src/ASF/xmega/drivers/wdt/wdt.o: \
+ ../src/ASF/xmega/drivers/wdt/wdt.c ../src/ASF/xmega/utils/compiler.h \
  d:\programs\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  d:\programs\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  d:\programs\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -29,10 +28,7 @@ src/ASF/xmega/drivers/twi/twim.d src/ASF/xmega/drivers/twi/twim.o: \
  ../src/ASF/common/utils/interrupt.h \
  ../src/ASF/common/utils/interrupt/interrupt_avr8.h \
  d:\programs\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
- ../src/ASF/xmega/utils/status_codes.h ../src/config/conf_twim.h \
- ../src/ASF/xmega/drivers/twi/twi_common.h
-
-../src/ASF/xmega/drivers/twi/twim.h:
+ ../src/ASF/xmega/drivers/cpu/ccp.h ../src/ASF/xmega/drivers/wdt/wdt.h
 
 ../src/ASF/xmega/utils/compiler.h:
 
@@ -92,8 +88,6 @@ d:\programs\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pg
 
 d:\programs\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
 
-../src/ASF/xmega/utils/status_codes.h:
+../src/ASF/xmega/drivers/cpu/ccp.h:
 
-../src/config/conf_twim.h:
-
-../src/ASF/xmega/drivers/twi/twi_common.h:
+../src/ASF/xmega/drivers/wdt/wdt.h:

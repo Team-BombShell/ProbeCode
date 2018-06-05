@@ -6,6 +6,8 @@ src\ASF\xmega\drivers\twi\twim.c
 
 src\ASF\xmega\drivers\twi\twis.c
 
+src\ASF\xmega\drivers\wdt\wdt.c
+
 src\Drivers\RTC.c
 
 src\ASF\common\services\clock\xmega\sysclk.c

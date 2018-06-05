@@ -36,11 +36,11 @@
 #include "Drivers/altitude.h"
 #include "DRIVERS/mpu9250.h"
 #include "DRIVERS/mechanics.h"
+#include "register_definitions.h"
 #include <time.h>
 
 
-
-
+extern uint8_t state;
 //void blink (int, int);
 
 int main (void)
@@ -98,7 +98,8 @@ int main (void)
 	//uint16_t duty_cycle;
 	double smoothing_factor = 0.90;
 	
-	uint8_t state = 0;
+
+	state = 0;
 	printf("Is this thing on?\n");
 
 	//initial_altitude = Get_altitude(101300, initial);

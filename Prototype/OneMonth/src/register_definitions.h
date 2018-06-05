@@ -6,4 +6,5 @@
 * author: Nathan
 */
 
-#define USART_OPENLOGGER &
+#define USART_OPENLOGGER 
+//extern uint8_t state;
