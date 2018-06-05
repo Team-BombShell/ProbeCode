@@ -15,7 +15,7 @@ uint16_t c5;
 uint16_t c6;
 
 
-void SPI_init(void){ //Convert these numbers somehow
+void SPI_init(void){
 	PORTD.DIRSET = 0b10110000;
 	PORTD.DIRCLR = 0b01000000;
 	PORTD.OUTSET = 0b10110000;
@@ -69,12 +69,12 @@ uint32_t data_read(uint8_t command){
 	SPI_write(command);
 	PORTD.OUTSET = 0b00000010;
 	delay_ms(9);
-	PORTD.OUTCLR = 0b00000010;
+	PORTD.OUTCLR = 0b00010000;
 	SPI_write(0x00);
 	data = ((uint32_t)spi_read())<<16;
 	data += ((uint32_t)spi_read())<<8;
 	data += spi_read();
-	PORTD.OUTSET = 0b00000010;
+	PORTC.OUTSET = 0b00000010;
 	return data;
 }
 

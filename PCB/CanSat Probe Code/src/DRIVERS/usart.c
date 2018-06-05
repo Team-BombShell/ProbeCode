@@ -15,8 +15,8 @@ void usart_init(void){
 		.stopbits = true
 	};
 	
-	PORTC.DIRSET = 0b00001000;
-	PORTC.OUTSET = 0b00001000;
+	PORTD.DIRSET = 0b00001000;
+	PORTD.OUTSET = 0b00001000;
 	
 	stdio_serial_init(&USARTC0, &usart_options);
 }

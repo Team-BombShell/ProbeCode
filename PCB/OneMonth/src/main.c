@@ -30,15 +30,17 @@
  */
 #include <asf.h>
 #include "Drivers/timer_counter.h"
-#include "Drivers/usart.h"
+#include "Drivers/usart_comms.h"
 #include "Drivers/pressure.h"
 #include "Drivers/thermistor.h"
 #include "Drivers/altitude.h"
+#include "DRIVERS/mpu9250.h"
+#include "DRIVERS/mechanics.h"
+#include "register_definitions.h"
 #include <time.h>
 
 
-
-
+extern uint8_t state;
 //void blink (int, int);
 
 int main (void)
@@ -70,42 +72,69 @@ int main (void)
 	sysclk_enable_peripheral_clock(&ADCA);
 	adc_init();
 	
+	uint16_t teamID = 5186;
+	uint8_t my_time;
+	uint8_t packetCount;
+	float voltage;
+	uint32_t GPSTime;
+	uint32_t GPSLat;
+	uint32_t GPSLong;
+	uint32_t GPSAlt;
+	uint32_t GPSSats;
+	float tiltX;
+	float tiltY;	
+	float tiltZ;	
+	
+	//printf("Is this thing on?\n");
 	uint32_t initial = get_pressure();
 	uint32_t pressure;
-	//uint16_t temperature;
+	uint32_t temperature;
 	//uint32_t initial_pressure = get_pressure();
 	int32_t altitude;
 	int32_t initial_altitude = 0;
 	int32_t smooth_altitude = 0;
-	uint8_t my_time;
-	uint16_t period;
-	uint16_t duty_cycle;
-	double smoothing_factor = 0.90;
-		
-	uint8_t state = 0;
 	
-	initial_altitude = Get_altitude(101300, initial);
-	timer_founter_init(62499, 5);
+	//uint16_t period;
+	//uint16_t duty_cycle;
+	double smoothing_factor = 0.90;
+	
+
+	state = 0;
+	printf("Is this thing on?\n");
+
+	//initial_altitude = Get_altitude(101300, initial);
+	//timer_founter_init(62499, 5);
 
 	//timer_dounter_init(12500, 10);
 	
 	
-	//printf("Hello World! \n");
+	printf("Hello World! \n");
 	
 	while(1){
 		//printf("pizza! \n");
 		pressure = get_pressure();
-		
+		temperature = getTemperature();
+		//printf("Pressure = %lu\n", pressure);
 		//temperature = (temperature/100)+273;
-		//printf("initial pressure: %u \n", initial_pressure);
-		altitude = Get_altitude(101300, pressure);
+		//printf("initial pressure: %lu \n", initial_pressure);
+		altitude = Get_altitude(initial, pressure);
 		smooth_altitude = (int32_t)(smoothing_factor * altitude + (1-smoothing_factor)*smooth_altitude);
 		my_time = my_time + 0.250;
-		timer_founter_init(6249, 10);
+		//timer_founter_init(6249, 10);
 		//printf("Temperature = %u \n", temperature);
 		//printf("Pressure = %lu\n", pressure);
 		//printf("Altitude = %li \n", (int32_t)altitude);
 		delay_ms(15.625);
+		
+		float data[16] = {teamID, my_time, packetCount, altitude, pressure, 
+			TEMP, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats,
+			tiltX,tiltY,tiltZ,state};
+			
+		usart_tx(&USARTD0,&data);
+		
+		
+		PORTE.DIRSET = 0b01010101;
+		PORTE.OUTSET = 0b01010101;
 	
 	
 	
@@ -113,9 +142,14 @@ int main (void)
 	
 		//FS0
 		if(state==0){
-			printf("Flight State 0 \n");
-			if(smooth_altitude-altitude<0 && 600<smooth_altitude<800){ //Work on Velocity later, this will work for now
-				//Deploy Heat Shield
+			//printf("Flight State 0 \n");
+			PORTE.DIRSET = 0b01010101;
+			PORTE.OUTSET = 0b01010101;
+			
+			PORTA.OUT = 0b00001000; //Hopefully this does the buzzer... buzzer is really quiet rn, gotta fix that. (this is just for testing)
+			if(smooth_altitude-altitude<0 && 600<smooth_altitude && smooth_altitude<800){ //Work on Velocity later, this will work for now
+				PORTE.DIRSET = 0b00000001;	//Deploy Heat Shield
+				PORTE.OUTSET = 0b00000001;	//Deploy Heat Shield
 				state = 1;
 			}
 		}
@@ -124,8 +158,10 @@ int main (void)
 		if(state==1){
 			printf("Flight State 1 \n");
 			if(smooth_altitude-initial_altitude<300){
-				//Activate Camera
-				//Detach Heat Shield
+				PORTE.DIRSET = 0b00000010;	//Activate Camera
+				PORTE.OUTSET = 0b00000010;	//Activate Camera
+				PORTA.DIRSET = 0b10000000;	//Detach Heat Shield
+				PORTA.OUTSET = 0b10000000;	//Detach Heat Shield
 				//Deploy Parachute
 				state = 2;
 			}
@@ -135,7 +171,8 @@ int main (void)
 		if(state==2){
 			printf("Flight State 2 \n");
 			if(smooth_altitude-altitude<1 && altitude-initial_altitude<100){
-				//Activate Buzzer
+				PORTA.DIRSET = 0b00001000; //Activate Buzzer
+				PORTA.OUTSET = 0b00001000; //Activate Buzzer
 				state = 3;
 			}
 		}
@@ -143,7 +180,7 @@ int main (void)
 	
 	
 	
-	
+	}
 	
 	//Old Flight States
 	
@@ -195,9 +232,9 @@ int main (void)
 		}
 		
 	}
-		/*printf("Temperature = %u\n", temperature);
+		printf("Temperature = %u\n", temperature);
 		printf("Pressure = %"PRIu32"\n", pressure);
-		printf("Pressure = %lu\n", pressure);*/
+		printf("Pressure = %lu\n", pressure);
 		
 		
 	}
@@ -207,15 +244,15 @@ int main (void)
 	//blink(500, 1000);
 	//blink(500, 1000);
 	
-	/*while (1==1)
+	while (1==1)
 	{
 		PORTE.OUT = 0b01010101;
 		delay_ms(100);
 		PORTE.OUT = 0b10101010;
 		delay_ms(100);
-	}*/
+	}
 
-	/*while (1==1){
+	while (1==1){
 		PORTE.OUT = 0b01111111;
 		delay_ms(250);
 		PORTE.OUT = 0b10111111;
@@ -232,10 +269,10 @@ int main (void)
 		delay_ms(250);
 		PORTE.OUT = 0b11110111;
 		delay_ms(250);
-	}*/
+	}
 
 
-/*void blink (int, int);
+void blink (int, int);
 
 void blink (int time_on, int time_off){
 	PORTE.OUT - 0b00000000;
@@ -245,8 +282,6 @@ void blink (int time_on, int time_off){
 }*/
 
 
+}
 
 
-
-// If only it would push to github...
-// jk it works now

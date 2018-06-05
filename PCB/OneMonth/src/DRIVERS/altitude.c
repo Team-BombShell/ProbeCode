@@ -1,17 +1,39 @@
 #include <asf.h>
 #include "altitude.h"
 #include "pressure.h"
+#include "thermistor.h"
 #include <math.h>
 
 extern int32_t TEMP;
 
+/*float Get_altitude(uint32_t initial, uint32_t pressure, uint32_t temperature){
+	//printf("Initial Pressure = %lu\n", initial);
+	//printf("pressure = %lu \n", pressure);
+	//printf("temperature = %lu \n", temperature);
+	//float altitude = (((287.058 * (((float)(TEMP)/100)+273.15)/9.8))*log((float)initial/get_pressure())*3.28);	Not this one, this one's bad
+	float altitude = (pow(((initial/100)/(pressure/100)),(1/5.257))-1)*((TEMP/100)+273.15)/.0065; //This is now right, just gotta use the thermistor
+	//printf("altitude = %f \n", (float)altitude);
+	return altitude;
+}*/
+
+//Old, working function. Uses TEMP from pressure sensor calculations. May as well use
 float Get_altitude(uint32_t initial, uint32_t pressure){
-	printf("pressure = %lu \n", pressure);
-	printf("temperature = %i \n", (uint16_t) TEMP);
-	float altitude = (((287.058 * (((float)(TEMP)/100)+273.15)/9.8))*log((float)initial/get_pressure())*3.28);
-	printf("altitude = %i \n", (int16_t)altitude);
+	//printf("Initial Pressure = %lu\n", initial);
+	//printf("pressure = %lu \n", pressure);
+	//printf("temperature = %li \n", TEMP/100);
+	//float altitude = (((287.058 * (((float)(TEMP)/100)+273.15)/9.8))*log((float)initial/get_pressure())*3.28);	Not this one, this one's bad
+	float altitude = (pow(((initial/100)/(pressure/100)),(1/5.257))-1)*((TEMP/100)+273.15)/.0065; //This is now right, just gotta use the thermistor
+	//printf("altitude = %f \n", (float)altitude);
 	return altitude;
 }
+
+
+
+
+
+
+
+
 
 // uint32_t getAltitude(int32_t pressure, uint16_t* temperature){
 // //uint32_t altitude = (((pow((initial_pressure/pressure),(1/5.257)))*(temperature))/.0065);

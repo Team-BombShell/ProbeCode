@@ -99,11 +99,24 @@
 // From module: TC - Timer Counter
 #include <tc.h>
 
+// From module: TWI - Two-Wire Interface - XMEGA implementation
+#include <twi_master.h>
+#include <twi_slave.h>
+#include <xmega_twi/twi_master.h>
+#include <xmega_twi/twi_slave.h>
+
+// From module: TWI - Two-wire Master and Slave Interface
+#include <twim.h>
+#include <twis.h>
+
 // From module: USART - Serial interface - XMEGA implementation
 #include <serial.h>
 
 // From module: USART - Universal Synchronous/Asynchronous Receiver/Transmitter
 #include <usart.h>
+
+// From module: WDT - Watchdog Timer
+#include <wdt.h>
 
 // From module: XMEGA compiler driver
 #include <compiler.h>

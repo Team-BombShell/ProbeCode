@@ -8,8 +8,7 @@
 #include "Drivers/timer_counter.h"
 #include <asf.h>
 
-//Need to figure out what numbers to change fro all the CTRLAs and CTRLBs
-   void timer_bounter_init(uint16_t period, uint16_t duty_cycle){
+ void timer_bounter_init(uint16_t period, uint16_t duty_cycle){
 	   PORTA.DIRSET = 0b00000010;
 	   TCA1.CTRLA = 0b00000111;
 	   TCA1.CTRLB = 0b10000011;
@@ -20,7 +19,7 @@
 	   TCA1.CCD = TCA0.PER*((float)duty_cycle/100);
    }
    
-  void timer_counter_init(uint16_t period, uint16_t duty_cycle){
+void timer_counter_init(uint16_t period, uint16_t duty_cycle){
 	  PORTA.DIRSET = 0b00000100;
 	  TCA2.CTRLA = 0b00000111;
 	  TCA2.CTRLB = 0b10000011;
@@ -31,7 +30,7 @@
 	  TCA2.CCD = TCA0.PER*((float)duty_cycle/100);
   }
   
- void timer_dounter_init(uint16_t period, uint16_t duty_cycle){
+void timer_dounter_init(uint16_t period, uint16_t duty_cycle){
 	 PORTA.DIRSET = 0b00001000;
 	 TCA3.CTRLA = 0b00000111;
 	 TCA3.CTRLB = 0b10000011;
@@ -42,7 +41,7 @@
 	 TCA3.CCD = TCA0.PER*((float)duty_cycle/100);
  }
  
-void timer_founter_init(uint16_t period, uint16_t duty_cycle){
+ void timer_founter_init(uint16_t period, uint16_t duty_cycle){
 	PORTA.DIRSET = 0b00010000;
 	TCA4.CTRLA = 0b00000111;
 	TCA4.CTRLB = 0b00010011;
@@ -54,12 +53,12 @@ void timer_founter_init(uint16_t period, uint16_t duty_cycle){
 }
 
 void timer_counter_buzzer(){ //Need to figure out which numbers to change below
-	PORTB.DIR = 0b11111111;
-	TCB8.CTRLA = 0b00000111;
-	TCB8.CTRLB = 0b11110011;
-	TCB8.PER = 12;
-	TCB8.CCA = .9 * TCA8.PER;
-	TCB8.CCB = TCA8.PER/1;
+	PORTA.DIR = 0b11111111;
+	TCA0.CTRLA = 0b00000111;
+	TCA0.CTRLB = 0b11110011;
+	TCA0.PER = 12;
+	TCA0.CCA = .9 * TCA0.PER;
+	TCA0.CCB = TCA0.PER/1;
 
 /* Timer Counter init for LEDs
 static void my_cfa_callback(void)

@@ -2,6 +2,14 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\ASF\xmega\drivers\twi\twim.c
+
+src\ASF\xmega\drivers\twi\twis.c
+
+src\ASF\xmega\drivers\wdt\wdt.c
+
+src\Drivers\RTC.c
+
 src\ASF\common\services\clock\xmega\sysclk.c
 
 src\ASF\common\services\serial\usart_serial.c
@@ -32,6 +40,8 @@ src\ASF\xmega\drivers\usart\usart.c
 
 src\Drivers\altitude.c
 
+src\Drivers\GPS.c
+
 src\Drivers\LED.c
 
 src\Drivers\mechanics.c
@@ -46,7 +56,7 @@ src\Drivers\thermistor.c
 
 src\Drivers\timer_counter.c
 
-src\Drivers\usart.c
+src\Drivers\usart_comms.c
 
 src\Drivers\velocity.c
 
