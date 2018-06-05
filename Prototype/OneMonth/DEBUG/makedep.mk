@@ -54,7 +54,7 @@ src\Drivers\thermistor.c
 
 src\Drivers\timer_counter.c
 
-src\Drivers\usart.c
+src\Drivers\usart_comms.c
 
 src\Drivers\velocity.c
 

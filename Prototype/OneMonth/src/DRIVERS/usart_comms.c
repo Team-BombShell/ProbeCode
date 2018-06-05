@@ -5,7 +5,7 @@
  *  Author: Mason
  */ 
 #include <asf.h>
-#include "Drivers/usart.h"
+#include "Drivers/usart_comms.h"
 
 void usart_init(void){
 	
@@ -68,7 +68,7 @@ char* usart_rx(USART_t* usart_channel, char* read_buffer){
 }
 	
 ISR(USART_RX_vect){
-	char usart_rx_char = UDR; 
+	//char usart_rx_char = UDR; 
 	
 }
 

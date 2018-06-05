@@ -104,7 +104,7 @@ C_SRCS +=  \
 ../src/Drivers/Temperature\ trial.c \
 ../src/Drivers/thermistor.c \
 ../src/Drivers/timer_counter.c \
-../src/Drivers/usart.c \
+../src/Drivers/usart_comms.c \
 ../src/Drivers/velocity.c \
 ../src/main.c
 
@@ -144,7 +144,7 @@ src/Drivers/pressure.o \
 src/Drivers/Temperature\ trial.o \
 src/Drivers/thermistor.o \
 src/Drivers/timer_counter.o \
-src/Drivers/usart.o \
+src/Drivers/usart_comms.o \
 src/Drivers/velocity.o \
 src/main.o
 
@@ -175,7 +175,7 @@ src/Drivers/pressure.o \
 "src/Drivers/Temperature trial.o" \
 src/Drivers/thermistor.o \
 src/Drivers/timer_counter.o \
-src/Drivers/usart.o \
+src/Drivers/usart_comms.o \
 src/Drivers/velocity.o \
 src/main.o
 
@@ -206,7 +206,7 @@ src/Drivers/pressure.d \
 src/Drivers/Temperature\ trial.d \
 src/Drivers/thermistor.d \
 src/Drivers/timer_counter.d \
-src/Drivers/usart.d \
+src/Drivers/usart_comms.d \
 src/Drivers/velocity.d \
 src/main.d
 
@@ -237,7 +237,7 @@ src/Drivers/pressure.d \
 "src/Drivers/Temperature trial.d" \
 src/Drivers/thermistor.d \
 src/Drivers/timer_counter.d \
-src/Drivers/usart.d \
+src/Drivers/usart_comms.d \
 src/Drivers/velocity.d \
 src/main.d
 
@@ -423,7 +423,7 @@ src/Drivers/timer_counter.o: ../src/Drivers/timer_counter.c
 	@echo Finished building: $<
 	
 
-src/Drivers/usart.o: ../src/Drivers/usart.c
+src/Drivers/usart_comms.o: ../src/Drivers/usart_comms.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -DDEBUG -DIOPORT_XMEGA_COMPAT -DBOARD=XMEGA_A1_XPLAINED  -I"../src/ASF/common/boards" -I"../src/ASF/xmega/utils/preprocessor" -I"../src/ASF/xmega/utils" -I"../src/ASF/common/utils" -I"../src/ASF/xmega/boards/xmega_a1_xplained" -I"../src/ASF/xmega/boards" -I"../src/ASF/common/services/gpio" -I"../src/ASF/common/services/ioport" -I"../src" -I"../src/config" -I"../src/ASF/xmega/drivers/cpu" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/xmega/drivers/pmic" -I"../src/ASF/common/services/serial/xmega_usart" -I"../src/ASF/common/services/serial" -I"../src/ASF/common/utils/stdio/stdio_serial" -I"../src/ASF/xmega/drivers/usart" -I"../src/ASF/xmega/drivers/nvm" -I"../src/ASF/xmega/drivers/sleep" -I"../src/ASF/common/services/sleepmgr" -I"../src/ASF/xmega/drivers/adc" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.1.68\include" -I"../src/ASF/xmega/drivers/tc" -I"../src/ASF/common/services/twi" -I"../src/ASF/xmega/drivers/twi"  -O1 -fdata-sections -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.1.68\gcc\dev\atxmega128a1u" -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

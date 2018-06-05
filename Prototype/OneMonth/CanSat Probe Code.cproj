@@ -697,10 +697,10 @@
     <Compile Include="src\Drivers\timer_counter.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\Drivers\usart.c">
+    <Compile Include="src\Drivers\usart_comms.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\Drivers\usart.h">
+    <Compile Include="src\Drivers\usart_comms.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\Drivers\velocity.c">

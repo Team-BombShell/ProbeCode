@@ -17,3 +17,10 @@ void heatshield_solenoid(void){
 	PORTA.DIRSET = 0b10000000;
 	PORTA.OUTSET = 0b10000000;
 }
+
+void hotwire (){
+	PORTD.DIR |= 0b00000010;
+	PORTD.OUT |= 0b00000010; //
+	delay_ms(4000);
+	PORTD.OUT &= 0b11111101;
+}
