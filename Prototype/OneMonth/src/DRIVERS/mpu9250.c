@@ -88,20 +88,20 @@ void mpu9250_ODR_init(mpu9250_t chip, uint8_t sample_rate)
 void mpu9250_gyro_init(mpu9250_t chip)
 {
 	//Gyro Configurations
-	//FIFO_MODE		= 0
-	//EXT_SYNC_SET	= 0
-	//DLPF_CFG		= 001
-	//FCHOICE_B		= 00
-	//GYRO_FS_SEL	= 11
+	FIFO_MODE		= 0
+	EXT_SYNC_SET	= 0
+	DLPF_CFG		= 001
+	FCHOICE_B		= 00
+	GYRO_FS_SEL	= 11
 	
 	//This sets up the gyro in the following mode
 	//fifo is overwritten when full
 	//FSYNC is not used
-	//Gyro Digital LPF BW	= 92Hz
-	//Gyro Delay			= 3.9ms
-	//Temp Digital LPF BW	= 98Hz
-	//Temp Delay			= 2.8ms
-	//Gyro Full Scale		= +/-2000dps
+	Gyro Digital LPF BW	= 92Hz
+	Gyro Delay			= 3.9ms
+	Temp Digital LPF BW	= 98Hz
+	Temp Delay			= 2.8ms
+	Gyro Full Scale		= +/-2000dps
 	
 	mpu9250_twi_write_reg(chip,MPU9250_CONFIG_REG,0b00000010);
 	mpu9250_twi_write_reg(chip,MPU9250_GYRO_CONFIG_REG,(MPU9250_GYRO_SCALE<<3));
@@ -127,15 +127,15 @@ void mpu9250_gyro_init(mpu9250_t chip)
 void mpu9250_acc_init(mpu9250_t chip)
 {
 	//Accelerometer Configurations
-	//ACCEL_FS_SEL	= 10 (+/- 8g)
-	//FCHOICE_B		= 0
-	//A_DLPFCFG		= 1
+	ACCEL_FS_SEL	= 10 (+/- 8g)
+	FCHOICE_B		= 0
+	A_DLPFCFG		= 1
 	
 	//This sets up the Accelerometer in the following mode
-	//Acc Digital LPF BW			= 92Hz
-	//Acc Delay						= 7.80ms
-	//Acc Noise Density (ug/rtHz)	= 250
-	//Acc Full Scale				= +/- 8g
+	Acc Digital LPF BW			= 92Hz
+	Acc Delay						= 7.80ms
+	Acc Noise Density (ug/rtHz)	= 250
+	Acc Full Scale				= +/- 8g
 	mpu9250_twi_write_reg(chip,MPU9250_ACC_CONFIG_REG,(MPU9250_ACC_SCALE<<3));
 	mpu9250_twi_write_reg(chip,MPU9250_ACC_CONFIG_2_REG,0b0000010);
 	
@@ -239,25 +239,25 @@ void mpu9250_dmp_init(mpu9250_t chip)
 void mpu9250_int_init(mpu9250_t chip)
 {
 	//Interrupt Pin Configurations
-	//ACTL			= 0 (The logic level for INT pin is active high)
-	//OPEN			= 0 (INT pin is configured as push-pull)
-	//LATCH_INT_EN	= 1 (INT pin level held until interrupt status is cleared)
-	//INT_ANYRD_2CLEAR	= 1 (Interrupt status is cleared only by reading )
-	//ACTL_FSYNC	= 0 (The logic level for the FSYNC pin as an interrupt is active high)
-	//FSYNC_INT_MODE_EN	= 0 (This disables the FSYNC pin from causing an interrupt)
-	//BYPASS_EN		= 1 
+	ACTL			= 0 (The logic level for INT pin is active high)
+	OPEN			= 0 (INT pin is configured as push-pull)
+	LATCH_INT_EN	= 1 (INT pin level held until interrupt status is cleared)
+	INT_ANYRD_2CLEAR	= 1 (Interrupt status is cleared only by reading )
+	ACTL_FSYNC	= 0 (The logic level for the FSYNC pin as an interrupt is active high)
+	FSYNC_INT_MODE_EN	= 0 (This disables the FSYNC pin from causing an interrupt)
+	BYPASS_EN		= 1 
 	
-	//WOM_EN			= 0 (function is disabled)
-	//FIFO_OVERFLOW_EN	= 0 (function is disabled)
-	//FSYNC_INT_EN		= 0 (function is disabled)
-	//RAW_RDY_EN		= 1 (Enable Raw Sensor Data Ready interrupt to propagate to interrupt pin. The timing of the interrupt can vary depending on the setting in register 36 I2C_MST_CTRL, bit [6] WAIT_FOR_ES.)
+	WOM_EN			= 0 (function is disabled)
+	FIFO_OVERFLOW_EN	= 0 (function is disabled)
+	FSYNC_INT_EN		= 0 (function is disabled)
+	RAW_RDY_EN		= 1 (Enable Raw Sensor Data Ready interrupt to propagate to interrupt pin. The timing of the interrupt can vary depending on the setting in register 36 I2C_MST_CTRL, bit [6] WAIT_FOR_ES.)
 	mpu9250_twi_write_reg(chip,MPU9250_INT_PIN_CNFG_REG,0x10);
 	mpu9250_twi_write_reg(chip,MPU9250_INT_EN_REG,0x01);
 	
 // 	//Sets up the external interrupt stuff
-// 	MPU9250_INT_PIN_PORT.INT0MASK = 1<<MPU9250_INT_PIN_NUM;
-// 	
-// 	MPU9250_INT_PIN_PORT.INTCTRL = MPU9250_INT_LVL;
+ 	MPU9250_INT_PIN_PORT.INT0MASK = 1<<MPU9250_INT_PIN_NUM;
+ 	
+ 	MPU9250_INT_PIN_PORT.INTCTRL = MPU9250_INT_LVL;
 	
 }
 
@@ -286,8 +286,8 @@ mpu9250_data_t read_mpu9250(mpu9250_t chip)			//read data from chip
 {
 	mpu9250_data_t data;
 	
-	//mpu9250_twi_read_multi(chip, mpu9250_INT_STATUS_REG, 2);//call the int status register to clear the system and read instant
-	//while (gpio_pin_is_low(chip.int_pin));//wait for something to read (interrupt low = not interrupting, no data)
+	mpu9250_twi_read_multi(chip, mpu9250_INT_STATUS_REG, 2);//call the int status register to clear the system and read instant
+	while (gpio_pin_is_low(chip.int_pin));//wait for something to read (interrupt low = not interrupting, no data)
 	mpu9250_twi_read_multi(chip, MPU9250_INT_STATUS_REG,22); //21 = 20 regs + 1 because of atmel bullshit
 	data.int_status = mpu9250_twi_data[0];
 	data.acc_x = ((int16_t)mpu9250_twi_data[1])<<8;//gyro x high

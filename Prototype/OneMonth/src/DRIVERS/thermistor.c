@@ -13,21 +13,21 @@
 void adc_init(void){	//This is for PA6... mostly
 	PORTA.DIRCLR = 0b01000000;
 	PORTA.DIR = 0b10111111;
-	ADCA.CTRLA = 0b01000000;
+	ADCA.CTRLA = 0b00000001;
 	ADCA.CTRLB = 0b00000000;
 	ADCA.REFCTRL = 0b00010000;
 	ADCA.PRESCALER = 0b00000101;
 	ADCA.CAL = adc_get_calibration_data(ADC_CAL_ADCA);
 	
-	ADCA.CH0.CTRL = 0b01000000;
-	ADCA.CH0.MUXCTRL = 0b00000000;
+	ADCA.CH0.CTRL = 0b00000001;
+	ADCA.CH0.MUXCTRL = 0b00000110;
 }
 
 
 float getVoltage(void){
 	ADCA.CH0.CTRL  |= 0b10000000;
 	//printf("one");
-	//while(ADCA.CH0.INTFLAGS == 0);
+	while(ADCA.CH0.INTFLAGS == 0);
 	//printf("two");
 	ADCA.CH0.INTFLAGS = 0;
 	//printf("three");

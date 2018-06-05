@@ -9,18 +9,18 @@
 #ifndef MPU9250_H
 #define MPU9250_H
 
-#define TWI_MPU9250			TWIE
+#define TWI_MPU9250			TWIC
 
 //MPU9250 Pins
 #define MPU9250_INT_PIN_NUM		2
-#define MPU9250_INT_PIN_PORT	PORTE
-#define MPU9250_INT		IOPORT_CREATE_PIN(PORTE, 2)		//Interrupt Pin for IMU, Used as clock source
-#define IMU_SCL		IOPORT_CREATE_PIN(PORTE, 1)		//SCL pin used for MPU9250
-#define IMU_SDA		IOPORT_CREATE_PIN(PORTE, 0)		//SDA pin used for MPU9250
+#define MPU9250_INT_PIN_PORT	PORTC
+#define MPU9250_INT		IOPORT_CREATE_PIN(PORTC, 2)		//Interrupt Pin for IMU, Used as clock source
+#define IMU_SCL		IOPORT_CREATE_PIN(PORTC, 1)		//SCL pin used for MPU9250
+#define IMU_SDA		IOPORT_CREATE_PIN(PORTC, 0)		//SDA pin used for MPU9250
 
 //#include "global_include.h"
 #define MPU9250_INT_LVL		PORT_INT0LVL_HI_gc
-#define MPU9250_INT_vect	PORTE_INT0_vect
+#define MPU9250_INT_vect	PORTC_INT0_vect
 #define IMU_SAMPLE_RATE		100
 
 #include <asf.h>
