@@ -8,9 +8,15 @@
 
 #ifndef MECHANICS_H_
 #define MECHANICS_H_
+#include <asf.h>
 
-
-
-
+void heatshield_solenoid(PORT_t* port);
+void heatshield_hotwire (void);
+void heatshield_detatch_hotwire(void);
+void parachute_hotwire(void);
+void buzzer_on(void);
+void buzzer_off(void);
+void camera_on(void);
+void camera_off(void);
 
 #endif /* MECHANICS_H_ */

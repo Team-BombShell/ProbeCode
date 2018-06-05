@@ -81,34 +81,34 @@ ISR(USARTC0_RXC_vect){
 			wdt_reset_mcu();
 			break;
 		case '@':						//change to flight state 0
-			
+			state = 0;
 			break;
 		case '#':						//change to flight state 1
-		
+			state = 1;
 			break;
 		case '$':						//change to flight state 2
-		
+			state = 2;
 			break;
 		case '%':						//change to flight state 3
-		
+			state = 3;
 			break;
 		case '^':						//deploy heatshield
-			
+			heatshield_hotwire();
 			break;
 		case '&':						//deploy parachute
-		
+			parachute_hotwire();
 			break;
 		case '*':						//detatching heatshield
-		
+			heatshield_detatch_hotwire();
 			break;
 		case '(':						//buzzer on
-		
+			buzzer_on();
 			break;
 		case ')':						//buzzer off
-		
+			buzzer_off();
 			break;
 		case '_':						//camera on
-		
+			camera_on();
 			break;
 	}
 	
