@@ -9,7 +9,6 @@
 #ifndef GPS_H_
 #define GPS_H_
 
-void init_GPS(void)
 
 
 
