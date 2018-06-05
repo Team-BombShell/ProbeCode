@@ -30,7 +30,7 @@
  */
 #include <asf.h>
 #include "Drivers/timer_counter.h"
-#include "Drivers/usart.h"
+#include "Drivers/usart_comms.h"
 #include "Drivers/pressure.h"
 #include "Drivers/thermistor.h"
 #include "Drivers/altitude.h"
@@ -129,7 +129,7 @@ int main (void)
 			TEMP, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats,
 			tiltX,tiltY,tiltZ,state};
 			
-		openlogger_tx(data);
+		usart_tx(&USARTD0,&data);
 		
 		
 		PORTE.DIRSET = 0b01010101;

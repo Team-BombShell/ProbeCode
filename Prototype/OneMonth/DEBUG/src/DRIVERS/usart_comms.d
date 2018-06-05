@@ -1,4 +1,5 @@
-src/main.d src/main.o: ../src/main.c ../src/asf.h \
+src/Drivers/usart_comms.d src/Drivers/usart_comms.o: \
+ ../src/Drivers/usart_comms.c ../src/asf.h \
  ../src/ASF/xmega/drivers/adc/adc.h ../src/ASF/xmega/utils/compiler.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
@@ -72,11 +73,7 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/common/services/twi/xmega_twi/twi_master.h \
  ../src/ASF/common/services/twi/xmega_twi/twi_slave.h \
  ../src/ASF/xmega/boards/xmega_a1_xplained/led.h \
- ../src/Drivers/timer_counter.h ../src/Drivers/usart_comms.h \
- ../src/Drivers/pressure.h ../src/Drivers/thermistor.h \
- ../src/Drivers/altitude.h ../src/DRIVERS/mpu9250.h \
- ../src/DRIVERS/mechanics.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h
+ ../src/Drivers/usart_comms.h
 
 ../src/asf.h:
 
@@ -238,18 +235,4 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 ../src/ASF/xmega/boards/xmega_a1_xplained/led.h:
 
-../src/Drivers/timer_counter.h:
-
 ../src/Drivers/usart_comms.h:
-
-../src/Drivers/pressure.h:
-
-../src/Drivers/thermistor.h:
-
-../src/Drivers/altitude.h:
-
-../src/DRIVERS/mpu9250.h:
-
-../src/DRIVERS/mechanics.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h:
