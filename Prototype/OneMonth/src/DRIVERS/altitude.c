@@ -8,7 +8,7 @@ extern int32_t TEMP;
 
 float Get_altitude(uint32_t initial, uint32_t pressure, uint32_t temperature){
 	//printf("Initial Pressure = %lu\n", initial);
-	//printf("pressure = %lu \n", pressure);
+	printf("pressure = %lu \n", pressure);
 	//printf("temperature = %lu \n", temperature);
 	//float altitude = (((287.058 * (((float)(TEMP)/100)+273.15)/9.8))*log((float)initial/get_pressure())*3.28);	Not this one, this one's bad
 	float altitude = (pow(((initial/100)/(pressure/100)),(1/5.257))-1)*((TEMP/100)+273.15)/.0065; //This is now right, just gotta use the thermistor
