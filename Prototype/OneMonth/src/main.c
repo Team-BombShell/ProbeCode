@@ -72,8 +72,8 @@ int main (void)
 	sysclk_enable_peripheral_clock(&ADCA);
 	adc_init();
 	
-	/*uint16_t teamID = 5186;
-	uint8_t my_time;
+	uint16_t teamID = 5186;
+	uint8_t my_time = 0;
 	uint8_t packetCount;
 	float voltage;
 	uint32_t GPSTime;
@@ -83,7 +83,7 @@ int main (void)
 	uint32_t GPSSats;
 	float tiltX;
 	float tiltY;	
-	float tiltZ;	*/
+	float tiltZ;	
 	
 	//printf("Is this thing on?\n");
 	uint32_t initial = get_pressure();
@@ -108,7 +108,7 @@ int main (void)
 	//timer_dounter_init(12500, 10);
 	
 	
-	//printf("Hello World! \n");
+	printf("Hello World! \n");
 	
 	while(1){
 		//printf("pizza! \n");
@@ -119,22 +119,20 @@ int main (void)
 		//printf("initial pressure: %lu \n", initial_pressure);
 		altitude = Get_altitude(initial, pressure, temperature);
 		smooth_altitude = (int32_t)(smoothing_factor * altitude + (1-smoothing_factor)*smooth_altitude);
-//		my_time = my_time + 0.250;
+		my_time = my_time + 1;
 		//timer_founter_init(6249, 10);
 		//printf("Temperature = %u \n", temperature);
-		//printf("Pressure = %lu\n", pressure);
+		printf("Pressure = %lu\n", pressure);
 		//printf("Altitude = %li \n", (int32_t)altitude);
-		delay_ms(15.625);
+		delay_ms(1000);
 		
-		/*float data[16] = {teamID, my_time, packetCount, altitude, pressure, 
-			TEMP, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats,
+		/*float data[16] = {teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats,
 			tiltX,tiltY,tiltZ,state};*/
 		
 		
-		
-		char* data = sprintf("pressure: %lu\n", pressure);	
-		usart_tx(&USARTC0, &data);
-		
+		//float* data = pressure;
+		char data = printf("Team ID: %u\nMy Time: %u\nPacket Count: %u\nAltitude: %lu\nPressure: %lu\nTemperature: %lu\nVoltage: %f\nGPS Time: %lu\nGPS Lat: %lu\nGPS Long: %lu\nGPS Alt: %lu\nGPS Sats: %lu\nTilt X: %f\nTilt Y: %f\nTilt Z: %f\nState: %u\n\n", teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats, tiltX, tiltY, tiltZ, state);	
+		//usart_tx(&USARTC0, &data);
 		
 		
 	

@@ -54,10 +54,33 @@ void usart_tx(USART_t* usart_channel, const char* text, ...){
 	vsprintf(write_buffer, text, args);
 	va_end(args);
 	write_buffer[255] = '!';
+	if(usart_channel == &USARTC0){
+	usart_putchar(usart_channel,0x7E);
+	usart_putchar(usart_channel,0x00);
+	usart_putchar(usart_channel,0xFF);
+	usart_putchar(usart_channel,0x10);
+	usart_putchar(usart_channel,0x01);
+	usart_putchar(usart_channel,0x00);
+	usart_putchar(usart_channel,0x13);
+	usart_putchar(usart_channel,0xA2);
+	usart_putchar(usart_channel,0x00);
+	usart_putchar(usart_channel,0x41);
+	usart_putchar(usart_channel,0x07);
+	usart_putchar(usart_channel,0x11);
+	usart_putchar(usart_channel,0xD9);
+	usart_putchar(usart_channel,0xFF);
+	usart_putchar(usart_channel,0xFE);
+	usart_putchar(usart_channel,0x00);
+	usart_putchar(usart_channel,0x00);
+	}
 	
 	for(int i = 0; i < sizeof(write_buffer); i++)
 	{
 		usart_putchar(usart_channel, write_buffer[i]);
+	}
+	
+	if(usart_channel == &USARTC0){
+	usart_putchar(usart_channel,0xB3);
 	}
 }
 
