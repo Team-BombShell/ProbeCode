@@ -20,7 +20,7 @@ void adc_init(void){	//This is for PA0... mostly
 	ADCA.CAL = adc_get_calibration_data(ADC_CAL_ADCA);
 	
 	ADCA.CH0.CTRL = 0b00000001;
-	ADCA.CH0.MUXCTRL = 0b00000110;
+	ADCA.CH0.MUXCTRL = 0b00000000;
 }
 
 
@@ -29,7 +29,7 @@ float getVoltage(void){
 	//printf("one");
 	while(ADCA.CH0.INTFLAGS == 0);
 	//printf("two");
-	ADCA.CH0.INTFLAGS = 0;
+	//ADCA.CH0.INTFLAGS = 0;
 	//printf("three");
 	uint16_t adcReading = ADCA.CH0.RES;
 	//printf("ADC reading = %u\n", adcReading);
