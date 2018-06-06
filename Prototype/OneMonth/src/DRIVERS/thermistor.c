@@ -11,8 +11,8 @@
 
 
 void adc_init(void){	//This is for PA6... mostly
-	PORTA.DIRCLR = 0b01000000;
-	PORTA.DIR = 0b10111111;
+	PORTA.DIRCLR = 0b00000001;
+	PORTA.DIR = 0b11111110;
 	ADCA.CTRLA = 0b00000001;
 	ADCA.CTRLB = 0b00000000;
 	ADCA.REFCTRL = 0b00010000;
@@ -50,7 +50,7 @@ float getTemperature(void){
 	//uint16_t current = getCurrent();
 	//uint16_t resistance = voltage/current;
 	float resistance = (voltage*10000)/(voltage-3.3);
-	printf("resistance = %f \n", resistance);
+	//printf("resistance = %f \n", resistance);
 	uint32_t temperature = 3977.0/(log(resistance/(10000.0*pow(2.71828,(-3977.0/298.15)))));
 	//float temperature = pow((.003351016+.0002569850*log(resistance/10000)+.000002620131*pow(log(resistance/10000),2)),-1);
 	return temperature;

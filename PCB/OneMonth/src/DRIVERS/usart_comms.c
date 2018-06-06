@@ -9,7 +9,7 @@
 #include "register_definitions.h"
 #include "Drivers/mechanics.h"
 
-extern uint8_t state;
+//extern uint8_t state;
 volatile char xbee_rx_temporary;
 
 void usart_init(void){
@@ -81,16 +81,16 @@ ISR(USARTD0_RXC_vect){
 			wdt_reset_mcu();
 			break;
 		case '@':						//change to flight state 0
-			state = 0;
+			//state = 0;
 			break;
 		case '#':						//change to flight state 1
-			state = 1;
+			//state = 1;
 			break;
 		case '$':						//change to flight state 2
-			state = 2;
+			//state = 2;
 			break;
 		case '%':						//change to flight state 3
-			state = 3;
+			//state = 3;
 			break;
 		case '^':						//deploy heatshield
 			heatshield_hotwire();

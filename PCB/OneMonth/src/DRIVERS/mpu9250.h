@@ -52,14 +52,14 @@
 #define AK8963_DEVICE_ID        0x48
 #define MPU9250_I2C_READ_FLAG	0x80	//used when reading in I2C master mode
 //Offset of raw temperature reading
-//#define MPU9250_TEMP_OFFSET 13200
+#define MPU9250_TEMP_OFFSET 13200
 //Baseline reading level of MPU9250 temperature
-//#define MPU9250_TEMP_BASE 35
+#define MPU9250_TEMP_BASE 35
 
 //Calibration offsets of each axis (ADC counts), observed per chip
-//#define MPU9250_GYRO_X_OFFSET 207
-//#define MPU9250_GYRO_Y_OFFSET -11 //off by 0.0625
-//#define MPU9250_GYRO_Z_OFFSET 77 //off by 0.1875
+#define MPU9250_GYRO_X_OFFSET 207
+#define MPU9250_GYRO_Y_OFFSET -11 //off by 0.0625
+#define MPU9250_GYRO_Z_OFFSET 77 //off by 0.1875
 
 //Devices
 typedef struct

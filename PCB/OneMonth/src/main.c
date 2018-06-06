@@ -40,7 +40,7 @@
 #include <time.h>
 
 
-extern uint8_t state;
+//extern uint8_t state;
 //void blink (int, int);
 
 int main (void)
@@ -99,7 +99,7 @@ int main (void)
 	double smoothing_factor = 0.90;
 	
 
-	state = 0;
+	uint8_t state = 0;
 	printf("Is this thing on?\n");
 
 	//initial_altitude = Get_altitude(101300, initial);
@@ -130,7 +130,7 @@ int main (void)
 			TEMP, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats,
 			tiltX,tiltY,tiltZ,state};
 			
-		usart_tx(&USARTD0,&data);
+		usart_tx(&USARTC0,&data);
 		
 		
 		PORTE.DIRSET = 0b01010101;
