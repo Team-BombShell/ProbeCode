@@ -10,7 +10,7 @@
 #include "thermistor.h"
 
 
-void adc_init(void){	//This is for PA6... mostly
+void adc_init(void){	//This is for PA0... mostly
 	PORTA.DIRCLR = 0b00000001;
 	PORTA.DIR = 0b11111110;
 	ADCA.CTRLA = 0b00000001;

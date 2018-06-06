@@ -126,15 +126,15 @@ int main (void)
 		//printf("Altitude = %li \n", (int32_t)altitude);
 		delay_ms(15.625);
 		
-		float data[16] = {teamID, my_time, packetCount, altitude, pressure, 
+		/*float data[16] = {teamID, my_time, packetCount, altitude, pressure, 
 			TEMP, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats,
-			tiltX,tiltY,tiltZ,state};
-			
+			tiltX,tiltY,tiltZ,state};*/
+		
+		char* data = sprintf("Pressure: %lu\n", pressure);	
 		usart_tx(&USARTC0,&data);
 		
 		
-		PORTE.DIRSET = 0b01010101;
-		PORTE.OUTSET = 0b01010101;
+		
 	
 	
 	

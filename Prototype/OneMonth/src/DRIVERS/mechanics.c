@@ -40,12 +40,12 @@ void heatshield_detatch_hotwire(void){
 }
 
 void buzzer_on(void){
-	PORTA.DIR |= 0b00001000; //TODO: switch to timer counter for real board 
+	PORTA.DIR |= 0b00001000;
 	PORTA.OUT |= 0b00001000;
 	
 }
 void buzzer_off(void){
-	PORTA.DIR |= 0b00001000; //TODO: switch to timer counter for real board 
+	PORTA.DIR |= 0b00001000;
 	PORTA.OUT &= 0b11110111;
 	
 }

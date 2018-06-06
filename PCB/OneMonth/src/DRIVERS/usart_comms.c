@@ -42,7 +42,7 @@ void usart_init(void){
 	
 	
 	stdio_serial_init(&USARTD0, &usart_options);
-	stdio_serial_init(&USARTC0, &openlogger_usart_options);
+	usart_serial_init(&USARTC0, &openlogger_usart_options);
 }
 
 
