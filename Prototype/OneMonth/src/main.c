@@ -72,6 +72,11 @@ int main (void)
 	sysclk_enable_peripheral_clock(&ADCA);
 	adc_init();
 	
+	//GPS initializations
+	init_GPS_pins_and_usart();
+	init_gps_buffers();
+	init_gps_interrupts();
+	
 	uint16_t teamID = 5186;
 	uint8_t my_time = 0;
 	uint8_t packetCount;
@@ -290,3 +295,56 @@ void blink (int time_on, int time_off){
 
 
 
+//I stole this from Thomas it does cool GPS things
+
+	if (last_finished != SENTENCE_NONE)
+	{
+		if (last_finished == SENTENCE_GPGGA)
+		{
+			//printf("GGA!!!\n");
+			ATOMIC_BLOCK (ATOMIC_RESTORESTATE)
+			{
+				memcpy(gpstmp, gpgga_buff, 85);
+			}
+			// 				uint8_t* gpsstr = "$GPGGA,052430.779,3443.3629,N,08638.2812,W,1,05,1.74,188.1,M,-30.4,M,,*58";
+			// 				strcpy(gpstmp, gpsstr);
+			gpstmp[packetlen(gpstmp)] = '\0';
+			//printf(gpstmp);
+			//putchar('\n');
+			
+			//usart_serial_write_packet(&XBEE_USART, gpstmp, 85);
+			tempgpsdata = getGPSDatafromNMEA(gpstmp, strlen(gpstmp));
+			//printf("test");
+			//printf("%c",tempgpsdata->hour[0]);
+			//printf("test2\n");
+			//if (strlen(tempgpsdata->altitude) > 1)
+			//	printf("Altitude: %s\n", tempgpsdata->altitude);
+			
+			//printf("no of sats: %s\n", tempgpsdata->noofsatellites);
+			//printf("Altitude: %u, minutes: %u, valid: %u\n", (uint16_t)tempgpsdata->altitude, tempgpsdata->minutes, tempgpsdata->fix_status ? 1 : 0);
+			//GPSdata->altitude = tempgpsdata->altitude;
+			GPSdata = tempgpsdata;
+			//memcpy(GPSdata->noofsatellites, tempgpsdata->noofsatellites, 3);
+			last_finished = SENTENCE_NONE;
+			
+			if (GPSdata.fix_status)
+			{
+				uint32_t GPS_secs = 3600 * (uint32_t)GPSdata.hour + 60 * (uint32_t)GPSdata.minutes + (uint32_t)GPSdata.seconds;
+				uint32_t safetime;
+				ATOMIC_BLOCK (ATOMIC_RESTORESTATE)
+				{
+					safetime = time_ms;
+				}
+				gps_local_delta = GPS_secs - safetime;
+				got_good_time = 1;
+			}
+			// 				uint16_t delta;
+			// 				ATOMIC_BLOCK (ATOMIC_RESTORESTATE)
+			// 				{
+			// 					delta = time_ms - begin_parse;
+			// 				}
+			// 				printf("Difference is %u\n", delta);
+		}
+	}
+}
+}
