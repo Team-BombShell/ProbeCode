@@ -1,111 +1,103 @@
 /*
  * pressure.c
  *
- * Created: 9/20/2017 8:03:10 PM
- *  Author: Mason
+ * Created: 9/21/2017 7:41:33 PM
+ *  Author: Coleman A Cook
  */ 
-#include "Drivers/pressure.h"
 #include <asf.h>
+#include "Drivers/pressure.h"
 
-uint16_t c1;
-uint16_t c2;
-uint16_t c3;
-uint16_t c4;
-uint16_t c5;
-uint16_t c6;
+uint16_t C1; // Pressure sensitivity; SENS
+uint16_t C2; // Pressure offset; OFF
+uint16_t C3; // Temperature coefficient of pressure sensitivity; TCS
+uint16_t C4; // Temperature coefficient of pressure offset; TCO
+uint16_t C5; // Reference temperature; Tref
+uint16_t C6; // Temperature coefficient of the pressure; TEMPSENS
 
-
-void SPI_init(void){
-	PORTD.DIRSET = 0b10110000;
-	PORTD.DIRCLR = 0b01000000;
-	PORTD.OUTSET = 0b10110000;
-	SPID.CTRL = 0b01010011;
+void spi_init(void){
+	PORTC.DIRSET = 0b10110000; //Open the output pins for the SPI
+	PORTC.DIRCLR = 0b01000000; //Open the input pins for the SPI
+	PORTC.OUT = 0b10110000;
+	SPIC.CTRL = 0b01010011;
+	PORTD.DIRSET = 0b00000010;
 }
 
-void SPI_write(uint8_t data){
-	SPID.DATA = data;
-	while(!(SPID.STATUS>>7));
+void spi_write(uint8_t command){
+	SPIC.DATA = command;
+	while(!(SPIC.STATUS>>7)); //waits until the status register changes
 }
 
-uint8_t spi_read (void){
-	SPI_write(0xFF);
-	return SPID.DATA;
+uint8_t spi_read(void){
+	spi_write(0xFF); //writes a max byte 
+	return SPIC.DATA; //gets the data and returns value
 }
 
-void ms5607_init(void){
-	PORTD.OUTCLR = 0b00000010;
-	SPI_write(0x1E);
-	PORTD.OUTSET = 0b00000010;
+void ms5607init(void){
+	pres_select(); // Turn on output pin for port 4. 
+	spi_write(0x1E);
+	pres_deselect(); //reset command for the sensor; refer to datasheet for more.
 	delay_ms(10);
-	c1 = prom_read(0xA2);
-	//printf("c1: %u \n", c1);
-	c2 = prom_read(0xA4);
-	//printf("c2: %u \n", c2);
-	c3 = prom_read(0xA6);
-	//printf("c3: %u \n", c3);
-	c4 = prom_read(0xA8);
-	//printf("c4: %u \n", c4);
-	c5 = prom_read(0xAA);
-	//printf("c5: %u \n", c5);
-	c6 = prom_read(0xAC);
-	//printf("c6: %u \n", c6);
+	
+	
+	
+	//Get the programmatical settings from the sensor for future calculations.
+	C1 = prom_read(0xA2);
+	C2 = prom_read(0xA4);
+	C3 = prom_read(0xA6);
+	C4 = prom_read(0xA8);
+	C5 = prom_read(0xAA);
+	C6 = prom_read(0xAC);
 }
 
-uint16_t prom_read(uint8_t command){
+uint16_t prom_read(uint8_t command){ // reads the specified data value stored in the sensor.
 	uint16_t data;
-	PORTD.OUTCLR = 0b00000010;
-	SPI_write(command);
-	data = ((uint16_t)spi_read())<<8;	//Bitshifting
+	pres_select();
+	spi_write(command);
+	data = ((uint16_t)spi_read())<<8;
 	data += spi_read();
-	PORTD.OUTSET = 0b00000010;
+	pres_deselect();
 	delay_ms(1);
-	//printf("data: %lu \n", data);
 	return data;
 }
 
 uint32_t data_read(uint8_t command){
 	uint32_t data;
-	PORTD.OUTCLR = 0b00000010;
-	SPI_write(command);
-	PORTD.OUTSET = 0b00000010;
-	delay_ms(9);
-	PORTD.OUTCLR = 0b00010000;
-	SPI_write(0x00);
-	data = ((uint32_t)spi_read())<<16;
-	data += ((uint32_t)spi_read())<<8;
-	data += spi_read();
-	PORTC.OUTSET = 0b00000010;
+	pres_select();
+	spi_write(command);
+	pres_deselect();
+	delay_ms(10); //delay to wait for the data output
+	pres_select();
+	spi_write(0x00);
+	data = ((uint32_t)spi_read())<<16; //gets the first 16 bits of the sensor reading, shunts it to the front of the integer.
+	data += ((uint32_t)spi_read())<<8; // gets another 8 bits of the reading, shunts it in as well.
+	data += (uint32_t)spi_read(); // gets the final 8 bits from the sensor.
+	pres_deselect();
+	//delay_ms(10);
 	return data;
 }
 
-uint32_t get_pressure(void){
-	uint32_t D1 = data_read(0x48);
-	//printf("D1: %lu \n", D1);
-	uint32_t D2 = data_read(0x58);
-	//printf("D2: %li \n", D2);
-	int32_t dT = (int64_t)D2 - (int64_t)c5 * 256;
-	TEMP = (int16_t)((int64_t)2000 + (int64_t)dT * (int64_t)c6 / (int64_t)(8388608));
-	int64_t OFF = (int64_t)c2 * 131072 + (int64_t)(c4 * dT) / 64;
-	int64_t SENS = (int64_t)c1 * 65536 + (int64_t)(c3 * dT) / 128;
-	int32_t P = (int32_t)(((int64_t)((int64_t)(D1) * SENS) / 2097152 - (int64_t)OFF) / 32768);
-	//printf("pressure: %lu \n", P);
-	return (uint32_t)P;
-}
+uint32_t get_pressure(void){ //refer to the datasheet for these calculations.
 	
-	/*
-	int x = 3;
-	doubleme(&x);
-	printf("%i\n", x);
+	uint32_t D1 = data_read(0x48); // Gets digital pressure value
+	uint32_t D2 = data_read(0x58); // Gets temperature value
 	
-	x * 2;
-	&x;
+	//printf("D1: %lu, D2: %lu", D1, D2);
 	
-	int* y;
-	y = &x;
+	int32_t dT = (int64_t)D2 - (int64_t)C5 * 256; // Runs calculations to get dT
+	int32_t TEMP = 2000 + (int64_t)dT * (int64_t)C6 / 8388608; // Finds actual temp
 	
+	int64_t OFF =	(int64_t)C2 * 131072 + ((int64_t)C4 * (int64_t)dT) / 64;
+	int64_t SENS = (int64_t)C1 * 65536 + ((int64_t)C3 * (int64_t)dT) / 128; 
+	int32_t P = ((int64_t)D1 * (int64_t)SENS / 2097152 - (int64_t)OFF) / 32768; // Gets the actual temperature and type casts it.
+	//printf("Test: %lld\n", test);
+	//int32_t P = 0;
+	return P;
 }
 
-void doubleme(int* x)
-{
-	*x = *x * 2;
-}*/
+void pres_select(void){
+	PORTD_OUTCLR = 0b0000010;
+}
+
+void pres_deselect(void){
+	PORTD_OUTSET = 0b00000010;
+}

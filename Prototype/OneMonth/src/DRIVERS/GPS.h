@@ -11,14 +11,14 @@
 
 #include <asf.h>
 //#include <CommandParse.h>
-#include "tools/RingBuffer.h"
+#include "DRIVERS/RingBuffer.h"
 
-#define GPS_PORT							PORTD
-#define GPS_USART							USARTD0
-#define GPS_RECEIVE_INTERRUPT_VECTOR		USARTD0_RXC_vect
-#define GPS_SEND_INTERRUPT_VECTOR			USARTD0_TXC_vect
-#define GPS_SEND_PIN						IOPORT_CREATE_PIN(PORTD, 3)
-#define GPS_RECIEVE_PIN						IOPORT_CREATE_PIN(PORTD, 2)
+#define GPS_PORT							PORTF
+#define GPS_USART							USARTF0
+#define GPS_RECEIVE_INTERRUPT_VECTOR		USARTF0_RXC_vect
+#define GPS_SEND_INTERRUPT_VECTOR			USARTF0_TXC_vect
+#define GPS_SEND_PIN						IOPORT_CREATE_PIN(PORTF, 3)
+#define GPS_RECIEVE_PIN						IOPORT_CREATE_PIN(PORTF, 2)
 
 #define GPS_MODE_NMEA		0
 #define GPS_MODE_UBX		1

@@ -4,13 +4,13 @@
  * Created: 5/3/2016 9:11:56 PM
  *  Author: dcorey
  */ 
-/*
+
 #include <string.h>
 #include "drivers/GPS.h"
-#include "interrupts/GPS_Interrupts.h"
+#include "DRIVERS/GPS_Interrupts.h"
 //#include "config/ports.h"
 //#include "drivers/uart_tools.h"
-#include "tools/RingBuffer.h"
+#include "DRIVERS/RingBuffer.h"
 //#include "CommandParse.h"
 //#include "tools/satellite_vectors.h"
 
@@ -33,9 +33,6 @@ void init_GPS_pins_and_usart(void)
 // 		ioport_set_pin_low(GPS_CONFIG_PIN_8);
 // 		ioport_set_pin_low(GPS_CONFIG_PIN_16);
 // 	}
-	
-	
-	
 	
 	
 	//Configure USART
@@ -226,7 +223,7 @@ printf("GPS long direction %c \n", GPSData.longdirection);*/
 	
 	
 	
-	/*
+	
 	
 	
 //printf("GPSDATA altitude test %s \n ", GPSData.altitude);
@@ -247,4 +244,4 @@ uint8_t findnext(uint8_t* searchstr, uint8_t target, uint8_t length)
 			return i;
 		}
 	}
-}*/
+}

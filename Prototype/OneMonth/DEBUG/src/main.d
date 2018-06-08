@@ -73,11 +73,15 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/common/services/twi/xmega_twi/twi_slave.h \
  ../src/ASF/xmega/drivers/wdt/wdt.h \
  ../src/ASF/xmega/boards/xmega_a1_xplained/led.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\atomic.h \
  ../src/Drivers/timer_counter.h ../src/Drivers/usart_comms.h \
  ../src/Drivers/pressure.h ../src/Drivers/thermistor.h \
  ../src/Drivers/altitude.h ../src/DRIVERS/mpu9250.h \
  ../src/DRIVERS/mechanics.h ../src/register_definitions.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h
+ ../src/DRIVERS/GPS.h ../src/DRIVERS/RingBuffer.h \
+ ../src/DRIVERS/GPS_Interrupts.h
 
 ../src/asf.h:
 
@@ -241,6 +245,12 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 ../src/ASF/xmega/boards/xmega_a1_xplained/led.h:
 
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\atomic.h:
+
 ../src/Drivers/timer_counter.h:
 
 ../src/Drivers/usart_comms.h:
@@ -257,4 +267,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 ../src/register_definitions.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h:
+../src/DRIVERS/GPS.h:
+
+../src/DRIVERS/RingBuffer.h:
+
+../src/DRIVERS/GPS_Interrupts.h:

@@ -8,6 +8,8 @@ src\ASF\xmega\drivers\twi\twis.c
 
 src\ASF\xmega\drivers\wdt\wdt.c
 
+src\Drivers\GPS_Interrupts.c
+
 src\Drivers\RingBuffer.c
 
 src\Drivers\RTC.c

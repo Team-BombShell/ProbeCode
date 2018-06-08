@@ -6,8 +6,8 @@
  */ 
 
 #include <string.h>
-#include "Drivers/GPS/GPS_Interrupts.h"
-#include "drivers/GPS/GPS.h"
+#include "Drivers/GPS_Interrupts.h"
+#include "drivers/GPS.h"
 //#include "config/ports.h"
 
 
@@ -16,11 +16,13 @@ void init_gps_interrupts(void)
 	/*	This function will be called once to set up the XBee port for sending/receiving interrupts
 		It should not enable interrupts globally, just for receiving and sending on this one port
 	*/
+	printf("y u no work");
 	GPS_USART.CTRLA = 0b00010100; //RXint low-level, TXint low-level, DREint off;
 	gpgga_index = 0;
 	uint8_t dollar_counter = 0;
 	uint8_t current_sentence = SENTENCE_NONE;
 	last_finished = SENTENCE_NONE;
+	
 }
 
 void init_gps_buffers(void)
@@ -41,6 +43,7 @@ ISR (GPS_RECEIVE_INTERRUPT_VECTOR)
 		Essentially, it needs to run fast. This can be called as many as 25,000 times per second, and the cansat has other stuff to do
 	*/
 	uint8_t c = GPS_USART.DATA;
+	printf("%c", c);
 	//putchar(c);
 	//putchar(c);
 	if (current_sentence == SENTENCE_GPGGA)

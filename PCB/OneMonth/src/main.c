@@ -29,6 +29,9 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 #include <asf.h>
+#include <string.h>
+#include <time.h>
+#include <util/atomic.h>
 #include "Drivers/timer_counter.h"
 #include "Drivers/usart_comms.h"
 #include "Drivers/pressure.h"
@@ -39,7 +42,7 @@
 #include "register_definitions.h"
 #include "DRIVERS/GPS.h"
 #include "DRIVERS/GPS_Interrupts.h"
-#include <time.h>
+
 
 
 extern uint8_t state;
@@ -47,12 +50,14 @@ extern uint8_t state;
 
 int main (void)
 {
+	
 	sysclk_init();
 	sysclk_enable_peripheral_clock(&TCF0);
 	sysclk_enable_peripheral_clock(&TCD0);
 	sysclk_enable_module(SYSCLK_PORT_F, SYSCLK_HIRES);
 	sysclk_enable_module(SYSCLK_PORT_D, SYSCLK_HIRES);
 	sysclk_enable_module(SYSCLK_PORT_C, PR_SPI_bm);
+	
 	
 	
 //	timer_founter_init(3124, 10);
@@ -68,11 +73,34 @@ int main (void)
 	usart_init();
 	
 	sysclk_enable_peripheral_clock(&SPIC);
-	SPI_init();
-	ms5607_init();
+	spi_init();
+	ms5607init();
 	
 	sysclk_enable_peripheral_clock(&ADCA);
 	adc_init();
+	
+	
+	//printf("Do you work?\n");
+	//printf("Hi");
+
+	
+	uint8_t gpstmp[85];
+	GPS_data_t gps_data;
+	uint8_t got_good_time = 0;
+	int32_t gps_local_delta; //local time + this = gps time (ish)
+	//uint16_t packetlen(const uint8_t* buff);
+	uint16_t packetlen(const uint8_t* buff)
+	{
+		uint16_t i = 0;
+		for (i = 0; i < 1024; i++)
+		{
+			if (buff[i] == '\n')
+			return i;
+		}
+		return 1024;
+	}
+	uint32_t time_ms;
+	
 	
 	uint16_t teamID = 5186;
 	uint8_t my_time = 0;
@@ -88,8 +116,8 @@ int main (void)
 	float tiltZ;	
 	
 	//printf("Is this thing on?\n");
-	GPS_data_t gps_data = getGPSDatafromNMEA();
-	printf((const char*)gps_data.latdegrees);
+	
+	//printf((const char*)gps_data.latdegrees);
 	uint32_t initial = get_pressure();
 	uint32_t pressure;
 	uint32_t temperature;
@@ -116,17 +144,59 @@ int main (void)
 	
 	while(1){
 		//printf("IT'S TIME TO STOP!!!! \n");
+		buzzer_on();
+		PORTA_DIR = 0b00011110;
+		PORTA_OUT = 0b00011110;
+		delay_ms(250);
+		PORTA_OUT = 0b00000000;
+		delay_ms(250);
 		pressure = get_pressure();
 		temperature = getTemperature();
-		//printf("Pressure = %lu\n", pressure);
+		printf("Pressure = %lu\n", pressure);
 		//temperature = (temperature/100)+273;
 		//printf("initial pressure: %lu \n", initial_pressure);
 		altitude = Get_altitude(initial, pressure);
 		smooth_altitude = (int32_t)(smoothing_factor * altitude + (1-smoothing_factor)*smooth_altitude);
 		my_time = my_time + 1;
+		PORTD_DIRSET = 0b00100000;
+		PORTD_OUTCLR = 0b00100000;
+		delay_ms(10);
+		PORTD_OUTSET = 0b00100000;
+		delay_ms(100);
+		PORTD_OUTCLR = 0b00100000;
+		printf("How about now?");
+		if (last_finished != SENTENCE_NONE)
+		{
+			printf("Is it you?");
+			if (last_finished == SENTENCE_GPGGA)
+			{
+				printf("GGA!!!\n");
+				
+				ATOMIC_BLOCK (ATOMIC_RESTORESTATE)
+				{
+					memcpy(gpstmp, gpgga_buff, 85);
+				}
+				gpstmp[packetlen(gpstmp)] = '\0';
+				GPS_data_t gps_data = getGPSDatafromNMEA(gpstmp, strlen(gpstmp));
+				last_finished = SENTENCE_NONE;
+				
+				if (gps_data.fix_status)
+				{
+					uint32_t GPS_secs = 3600 * (uint32_t)gps_data.hour + 60 * (uint32_t)gps_data.minutes + (uint32_t)gps_data.seconds;
+					uint32_t safetime;
+					ATOMIC_BLOCK (ATOMIC_RESTORESTATE)
+					{
+						safetime = time_ms;
+					}
+					gps_local_delta = GPS_secs - safetime;
+					got_good_time = 1;
+				}
+				
+			}
+		}
 		//timer_founter_init(6249, 10);
 		//printf("Temperature = %u \n", temperature);
-		printf("Pressure = %lu ~\n", pressure);
+		//printf("Pressure = %lu ~\n", pressure);
 		//printf("Altitude = %li \n", (int32_t)altitude);
 		delay_ms(1000);
 		
@@ -138,6 +208,8 @@ int main (void)
 		//char data = printf("Team ID: %u ~\nMy Time: %u ~\nPacket Count: %u ~\nAltitude: %lu ~\nPressure: %lu ~\nTemperature: %lu ~\nVoltage: %f ~\nGPS Time: %lu ~\nGPS Lat: %lu ~\nGPS Long: %lu ~\nGPS Alt: %lu ~\nGPS Sats: %lu ~\nTilt X: %f ~\nTilt Y: %f ~\nTilt Z: %f ~\nState: %u ~\n\n", teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats, tiltX, tiltY, tiltZ, state);	
 		//char sd_data = sprintf("Team ID: %u ~\nMy Time: %u ~\nPacket Count: %u ~\nAltitude: %lu ~\nPressure: %lu ~\nTemperature: %lu ~\nVoltage: %f ~\nGPS Time: %lu ~\nGPS Lat: %lu ~\nGPS Long: %lu ~\nGPS Alt: %lu ~\nGPS Sats: %lu ~\nTilt X: %f ~\nTilt Y: %f ~\nTilt Z: %f ~\nState: %u ~\n\n", teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats, tiltX, tiltY, tiltZ, state);	("Team ID: %u\nMy Time: %u\nPacket Count: %u\nAltitude: %lu\nPressure: %lu\nTemperature: %lu\nVoltage: %f\nGPS Time: %lu\nGPS Lat: %lu\nGPS Long: %lu\nGPS Alt: %lu\nGPS Sats: %lu\nTilt X: %f\nTilt Y: %f\nTilt Z: %f\nState: %u\n\n", teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats, tiltX, tiltY, tiltZ, state);	
 		//usart_tx(&USARTC0, &data);
+		
+		//char gps = printf("Time: %lu\nLat: %lu\nLong: %lu\nAlt: %lu\nSats: %lu\n\n", GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats);
 		
 		
 	
