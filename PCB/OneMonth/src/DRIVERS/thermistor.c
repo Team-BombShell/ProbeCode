@@ -32,7 +32,7 @@ float getVoltage(void){
 	ADCA.CH0.INTFLAGS = 0;
 	//printf("three");
 	uint16_t adcReading = ADCA.CH0.RES;
-	//printf("ADC reading = %u\n", adcReading);
+	printf("ADC reading = %u\n", adcReading);
 	float voltage = 0.0004899 * (float)(adcReading) - 0.0856326;	//We have to find these numbers by applying differing voltage, printing ADC readings, and solve equation
 	//printf("voltage: %f \n", voltage);
 	return voltage;

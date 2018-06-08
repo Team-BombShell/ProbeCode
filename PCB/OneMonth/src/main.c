@@ -139,32 +139,33 @@ int main (void)
 
 	//timer_dounter_init(12500, 10);
 	
-	
+	PORTD_DIRSET = 0b00100000;
+	PORTD_OUTCLR = 0b00100000;
+	delay_ms(10);
+	PORTD_OUTSET = 0b00100000;
+	delay_ms(100);
+	PORTD_OUTCLR = 0b00100000;
+	delay_ms(5000);
 	//printf("Hello World! \n");
 	
 	while(1){
 		//printf("IT'S TIME TO STOP!!!! \n");
-		buzzer_on();
-		PORTA_DIR = 0b00011110;
-		PORTA_OUT = 0b00011110;
-		delay_ms(250);
-		PORTA_OUT = 0b00000000;
-		delay_ms(250);
+// 		buzzer_on();
+// 		PORTA_DIR = 0b00011110;
+// 		PORTA_OUT = 0b00011110;
+// 		delay_ms(250);
+// 		PORTA_OUT = 0b00000000;
+// 		delay_ms(250);
 		pressure = get_pressure();
 		temperature = getTemperature();
-		printf("Pressure = %lu\n", pressure);
+		//printf("Pressure = %lu\n", pressure);
 		//temperature = (temperature/100)+273;
 		//printf("initial pressure: %lu \n", initial_pressure);
 		altitude = Get_altitude(initial, pressure);
 		smooth_altitude = (int32_t)(smoothing_factor * altitude + (1-smoothing_factor)*smooth_altitude);
 		my_time = my_time + 1;
-		PORTD_DIRSET = 0b00100000;
-		PORTD_OUTCLR = 0b00100000;
-		delay_ms(10);
-		PORTD_OUTSET = 0b00100000;
-		delay_ms(100);
-		PORTD_OUTCLR = 0b00100000;
-		printf("How about now?");
+		
+		//printf("How about now?");
 		if (last_finished != SENTENCE_NONE)
 		{
 			printf("Is it you?");
@@ -210,6 +211,7 @@ int main (void)
 		//usart_tx(&USARTC0, &data);
 		
 		//char gps = printf("Time: %lu\nLat: %lu\nLong: %lu\nAlt: %lu\nSats: %lu\n\n", GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats);
+		//char tilt = printf("X: %f\nY: %f\nZ: %f\n\n", tiltX, tiltY, tiltZ);
 		
 		
 	
