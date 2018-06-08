@@ -7,10 +7,10 @@
 
 #include <string.h>
 #include "drivers/GPS.h"
-#include "interrupts/GPS_Interrupts.h"
+#include "DRIVERS/GPS_Interrupts.h"
 //#include "config/ports.h"
 //#include "drivers/uart_tools.h"
-#include "tools/RingBuffer.h"
+#include "DRIVERS/RingBuffer.h"
 //#include "CommandParse.h"
 //#include "tools/satellite_vectors.h"
 

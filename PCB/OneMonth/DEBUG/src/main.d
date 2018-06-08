@@ -77,6 +77,8 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/Drivers/pressure.h ../src/Drivers/thermistor.h \
  ../src/Drivers/altitude.h ../src/DRIVERS/mpu9250.h \
  ../src/DRIVERS/mechanics.h ../src/register_definitions.h \
+ ../src/DRIVERS/GPS.h ../src/DRIVERS/RingBuffer.h \
+ ../src/DRIVERS/GPS_Interrupts.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h
 
 ../src/asf.h:
@@ -256,5 +258,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../src/DRIVERS/mechanics.h:
 
 ../src/register_definitions.h:
+
+../src/DRIVERS/GPS.h:
+
+../src/DRIVERS/RingBuffer.h:
+
+../src/DRIVERS/GPS_Interrupts.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h:

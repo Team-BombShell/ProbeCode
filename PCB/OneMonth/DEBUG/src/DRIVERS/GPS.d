@@ -1,5 +1,7 @@
 src/Drivers/GPS.d src/Drivers/GPS.o: ../src/Drivers/GPS.c \
- ../src/Drivers/GPS.h ../src/asf.h ../src/ASF/xmega/drivers/adc/adc.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
+ ../src/drivers/GPS.h ../src/asf.h ../src/ASF/xmega/drivers/adc/adc.h \
  ../src/ASF/xmega/utils/compiler.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
@@ -15,7 +17,6 @@ src/Drivers/GPS.d src/Drivers/GPS.o: ../src/Drivers/GPS.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\builtins.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  ../src/ASF/common/utils/parts.h \
  ../src/ASF/xmega/utils/bit_handling/clz_ctz.h \
@@ -73,9 +74,14 @@ src/Drivers/GPS.d src/Drivers/GPS.o: ../src/Drivers/GPS.c \
  ../src/ASF/common/services/twi/xmega_twi/twi_master.h \
  ../src/ASF/common/services/twi/xmega_twi/twi_slave.h \
  ../src/ASF/xmega/drivers/wdt/wdt.h \
- ../src/ASF/xmega/boards/xmega_a1_xplained/led.h
+ ../src/ASF/xmega/boards/xmega_a1_xplained/led.h \
+ ../src/DRIVERS/RingBuffer.h ../src/DRIVERS/GPS_Interrupts.h
 
-../src/Drivers/GPS.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
+
+../src/drivers/GPS.h:
 
 ../src/asf.h:
 
@@ -110,8 +116,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\builtins.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 
@@ -238,3 +242,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../src/ASF/xmega/drivers/wdt/wdt.h:
 
 ../src/ASF/xmega/boards/xmega_a1_xplained/led.h:
+
+../src/DRIVERS/RingBuffer.h:
+
+../src/DRIVERS/GPS_Interrupts.h:

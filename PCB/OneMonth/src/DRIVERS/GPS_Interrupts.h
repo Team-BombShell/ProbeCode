@@ -12,7 +12,7 @@
 #define GPS_RECEIVE_BUFFER_SIZE 256
 #define GPS_TRANSMIT_BUFFER_SIZE 64
 
-#include "tools/RingBuffer.h"
+#include "DRIVERS/RingBuffer.h"
 
 void init_gps_interrupts(void);
 void init_gps_buffers(void);

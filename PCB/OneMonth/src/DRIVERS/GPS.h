@@ -11,7 +11,7 @@
 
 #include <asf.h>
 //#include <CommandParse.h>
-#include "tools/RingBuffer.h"
+#include "DRIVERS/RingBuffer.h"
 
 #define GPS_PORT							PORTD
 #define GPS_USART							USARTD0
