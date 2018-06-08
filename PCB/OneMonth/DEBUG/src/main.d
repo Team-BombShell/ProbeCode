@@ -61,7 +61,6 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/xmega/utils/status_codes.h \
  ../src/ASF/common/services/serial/xmega_usart/usart_serial.h \
  ../src/ASF/xmega/drivers/usart/usart.h ../src/config/conf_usart_serial.h \
- ../src/ASF/xmega/drivers/tc/tc.h \
  ../src/ASF/common/services/twi/twi_master.h \
  ../src/ASF/common/services/twi/xmega_twi/twi_master.h \
  ../src/ASF/xmega/drivers/twi/twim.h ../src/config/conf_twim.h \
@@ -81,7 +80,8 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/Drivers/altitude.h ../src/DRIVERS/mpu9250.h \
  ../src/DRIVERS/mechanics.h ../src/register_definitions.h \
  ../src/DRIVERS/GPS.h ../src/DRIVERS/RingBuffer.h \
- ../src/DRIVERS/GPS_Interrupts.h
+ ../src/DRIVERS/GPS_Interrupts.h ../src/drivers/imu.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h
 
 ../src/asf.h:
 
@@ -219,8 +219,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 ../src/config/conf_usart_serial.h:
 
-../src/ASF/xmega/drivers/tc/tc.h:
-
 ../src/ASF/common/services/twi/twi_master.h:
 
 ../src/ASF/common/services/twi/xmega_twi/twi_master.h:
@@ -272,3 +270,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../src/DRIVERS/RingBuffer.h:
 
 ../src/DRIVERS/GPS_Interrupts.h:
+
+../src/drivers/imu.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:

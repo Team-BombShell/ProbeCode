@@ -49,6 +49,8 @@ void ms5607init(void){
 	C6 = prom_read(0xAC);
 }
 
+
+
 uint16_t prom_read(uint8_t command){ // reads the specified data value stored in the sensor.
 	uint16_t data;
 	pres_select();
@@ -76,22 +78,36 @@ uint32_t data_read(uint8_t command){
 	return data;
 }
 
-uint32_t get_pressure(void){ //refer to the datasheet for these calculations.
+PressData get_pressure(void){ //refer to the datasheet for these calculations.
 	
 	uint32_t D1 = data_read(0x48); // Gets digital pressure value
 	uint32_t D2 = data_read(0x58); // Gets temperature value
 	
-	//printf("D1: %lu, D2: %lu", D1, D2);
+	//
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	("D1: %lu, D2: %lu", D1, D2);
 	
 	int32_t dT = (int64_t)D2 - (int64_t)C5 * 256; // Runs calculations to get dT
 	int32_t TEMP = 2000 + (int64_t)dT * (int64_t)C6 / 8388608; // Finds actual temp
+	//printf("TEMP: %li", TEMP);
 	
 	int64_t OFF =	(int64_t)C2 * 131072 + ((int64_t)C4 * (int64_t)dT) / 64;
 	int64_t SENS = (int64_t)C1 * 65536 + ((int64_t)C3 * (int64_t)dT) / 128; 
 	int32_t P = ((int64_t)D1 * (int64_t)SENS / 2097152 - (int64_t)OFF) / 32768; // Gets the actual temperature and type casts it.
 	//printf("Test: %lld\n", test);
 	//int32_t P = 0;
-	return P;
+	PressData pd;
+	pd.TEMP = TEMP;
+	pd.P = P;
+	return pd;
 }
 
 void pres_select(void){

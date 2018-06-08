@@ -8,29 +8,37 @@
 #include "Drivers/timer_counter.h"
 #include <asf.h>
 
- /*void timer_bounter_init(uint16_t period, uint16_t duty_cycle){
-	   PORTA.DIRSET = 0b00000010;
-	   TCA0.CTRLA = 0b00000111;
-	   TCA0.CTRLB = 0b10000011;
-	   TCA0.PER = (uint16_t)(period);
+ void timer_counter_init(void){
+	   //PORTD.DIRSET = 0b00000001;
+	   //TCD0.CTRLA = 0b00000111;
+	   //TCD0.CTRLB = 0b00000011;
+	   //TCD0.PER = (uint16_t)(period);
+	   
+	   PORTE.DIRSET = 0b00000001;
+	   TCE0.CTRLA = 0b00000111;
+	   TCE0.CTRLB = 0b00000011;
+	   
 	   //TCA0.CCA = TCA0.PER-(TCA0.PER/10);
 	   //TCA0.CCB = TCA0.PER-(TCA0.PER/10);
 	   //TCA0.CCC = TCA0.PER-(TCA0.PER/10);
-	   TCA0.CCD = TCA0.PER*((float)duty_cycle/100);
+	   //TCD0.CCA = TCD0.PER*((float)duty_cycle/100);
    }
    
-void timer_counter_init(uint16_t period, uint16_t duty_cycle){
-	  PORTA.DIRSET = 0b00000100;
-	  TCA2.CTRLA = 0b00000111;
-	  TCA2.CTRLB = 0b10000011;
-	  TCA2.PER = (uint16_t)(period);
-	  //TCA0.CCA = TCA0.PER-(TCA0.PER/10);
-	  //TCA0.CCB = TCA0.PER-(TCA0.PER/10);
-	  //TCA0.CCC = TCA0.PER-(TCA0.PER/10);
-	  TCA2.CCD = TCA2.PER*((float)duty_cycle/100);
+void buzzer_counter_init(uint16_t period, uint16_t duty_cycle){
+	  TCC0.CTRLA = 0b00000101; //div/64
+	  TCC0.CTRLB = 0b00000011;
+	  TCC0.PER = (uint16_t)(period);
+
   }
   
-void timer_dounter_init(uint16_t period, uint16_t duty_cycle){
+void servo_counter(float duty_cycle){
+	float hertz = 50; // Arbitrary hertz value, since we're using PWM, should be a 1ms period.
+	uint16_t blink_period = (uint16_t)(32000000 / (1024 * hertz) - 1);
+	TCE0.PER = (uint16_t)(blink_period);
+	TCE0.CCA = TCE0.PER * (1-duty_cycle);
+  }
+  
+/*void timer_dounter_init(uint16_t period, uint16_t duty_cycle){
 	 PORTA.DIRSET = 0b00001000;
 	 TCA3.CTRLA = 0b00000111;
 	 TCA3.CTRLB = 0b10000011;
@@ -154,3 +162,14 @@ void timer_eounter_setup(uint16_t period, uint16_t on, uint16_t off){
 	tc_write_cc(&TCE0, TC_CCA, on);
 	tc_write_cc(&TCE0, TC_CCB, off);
 }*/
+
+ISR(TCC0_OVF_vect){
+	PORTB.OUTTGL = 0b00000001;
+//	printf("buzz");
+//	PORTA.OUTTGL = 0b00000111;
+}
+
+
+ISR(TCD0_OVF_vect){
+ 	PORTA.OUTTGL = 0b00011110;
+}

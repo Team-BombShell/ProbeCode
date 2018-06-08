@@ -10,6 +10,7 @@
 #define MECHANICS_H_
 #include <asf.h>
 
+void heatshield_servo(void);
 void heatshield_solenoid(PORT_t* port);
 void heatshield_hotwire (void);
 void heatshield_detatch_hotwire(void);

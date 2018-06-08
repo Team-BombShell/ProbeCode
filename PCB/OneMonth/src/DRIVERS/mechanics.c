@@ -6,12 +6,17 @@
  */ 
 
 #include "mechanics.h"
+#include "Drivers/timer_counter.h"
 #include <asf.h>
 
-/*void heatshield_servo(void){
-	PORTE.DIRSET = 0b00000001;
-	PORTE.OUTSET = 0b00000001;
-}*/
+void heatshield_servo(void){
+	//timer_counter_init(624,0);
+	//PORTE.DIRSET = 0b00000001;
+	//PORTE.OUTSET = 0b00000001;
+	delay_ms(2000);
+	//timer_counter_init(624,10);
+	
+}
 
 void heatshield_solenoid(PORT_t* port){
 	(*port).DIRSET = 0b10000000;

@@ -10,6 +10,10 @@ src\ASF\xmega\drivers\wdt\wdt.c
 
 src\Drivers\GPS_Interrupts.c
 
+src\Drivers\imu.c
+
+src\Drivers\MahonyAHRS.c
+
 src\Drivers\RingBuffer.c
 
 src\Drivers\RTC.c
@@ -37,8 +41,6 @@ src\ASF\xmega\boards\xmega_a1_xplained\init.c
 src\ASF\xmega\drivers\nvm\nvm.c
 
 src\ASF\xmega\drivers\nvm\nvm_asm.s
-
-src\ASF\xmega\drivers\tc\tc.c
 
 src\ASF\xmega\drivers\usart\usart.c
 

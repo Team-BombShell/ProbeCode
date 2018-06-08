@@ -17,8 +17,8 @@
 
 void init_GPS_pins_and_usart(void)
 {
-	GPS_PORT.DIR |= 0b00001000;
-	GPS_PORT.DIR &= 0b11111011;
+	GPS_PORT.DIR |= 0b10000000;
+	GPS_PORT.DIR &= 0b10111111;
 	ioport_set_pin_high(GPS_SEND_PIN);
 	
 	//Config pins
@@ -39,7 +39,7 @@ void init_GPS_pins_and_usart(void)
 	sysclk_enable_peripheral_clock(&GPS_USART);
 	
 	static usart_serial_options_t options = {
-		.baudrate = 9600,
+		.baudrate = 4800,
 		.charlength = USART_CHSIZE_8BIT_gc,
 		.paritytype = USART_PMODE_DISABLED_gc,
 		.stopbits = 1
@@ -214,10 +214,10 @@ GPS_data_t getGPSDatafromNMEA(uint8_t* NMEA_sentence, uint8_t sentencelength)
 
    //printf("hate6");
 	
-/*printf("GPS lat degrees %s\n", GPSData.latdegrees);
-printf("GPS lat minutes %s\n",GPSData.latminutes);
-printf("GPS lat direction %c\n", GPSData.latdirection);
-printf("GPS long degrees %s\n", GPSData.longdegrees);
+//printf("GPS lat degrees %s\n", GPSData.latdegrees);
+//printf("GPS lat minutes %s\n",GPSData.latminutes);
+//printf("GPS lat direction %c\n", GPSData.latdirection);
+/*printf("GPS long degrees %s\n", GPSData.longdegrees);
 printf("GPS long minutes %s\n",GPSData.longminutes);
 printf("GPS long direction %c \n", GPSData.longdirection);*/
 	

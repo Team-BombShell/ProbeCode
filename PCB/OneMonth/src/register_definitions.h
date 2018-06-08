@@ -7,4 +7,4 @@
 */
 
 #define USART_OPENLOGGER 
-//extern uint8_t state;
+uint8_t state;

@@ -11,6 +11,11 @@
 
 #include <asf.h>
 
+typedef struct {
+	int32_t TEMP;
+	int32_t P;
+} PressData;
+
 void spi_init(void);
 void spi_write(uint8_t command);
 uint8_t spi_read(void);
@@ -19,7 +24,7 @@ void pres_select(void);
 void pres_deselect(void);
 uint16_t prom_read(uint8_t command);
 uint32_t data_read(uint8_t command);
-uint32_t get_pressure(void);
+PressData get_pressure(void);
 int32_t TEMP;
 
 

@@ -116,7 +116,16 @@ static inline void stdio_serial_init(volatile void *usart, const usart_serial_op
 	setbuf(stdin, NULL);
 	// Note: Already the case in IAR's Normal DLIB default configuration
 	// and AVR GCC library:
-	// - printf() emits one character at a time.
+	// - 
+	
+	
+	
+	
+	
+	
+	
+	
+	() emits one character at a time.
 	// - getchar() requests only 1 byte to exit.
 #  endif
 # endif

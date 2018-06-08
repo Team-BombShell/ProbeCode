@@ -64,7 +64,7 @@ void rtc_write_register(uint8_t regi,uint8_t val){
 	write_packet.addr[0] = regi;
 	write_packet.length = 1;
 	writeData[0] = val;
-	printf("Write data %u\n", writeData[0]);
+	//printf("Write data %u\n", writeData[0]);
 	while(twi_master_write(&RTC_TWI, &write_packet) != TWI_SUCCESS);
 }
 uint8_t rtc_read_register(uint8_t regi){

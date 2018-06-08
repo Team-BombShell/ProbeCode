@@ -401,7 +401,7 @@ void test_ring_bufferu8(void)
 	
 	for (i = 0; i < rbu8_length(&rb); i++)
 	{
-		printf("now reading %i\n", read[i]);
+		//printf("now reading %i\n", read[i]);
 	}
 	while (1);
 }
@@ -413,10 +413,10 @@ void test_ring_buffer32(void)
 	rb32_init(&rb, barray, 11);
 	int32_t i[] = {3, 7, 2};
 	rb32_write(&rb, &i, 3);
-	printf("number: %" PRIi32 "\n", (int32_t) (76));
-	printf("length is: %i\n", rb32_length(&rb));
-	printf("1st is: %" PRIi32 "\n", rb32_get_nth(&rb, 0));
-	printf("head is %i\n", rb.head);
+	//printf("number: %" PRIi32 "\n", (int32_t) (76));
+	//printf("length is: %i\n", rb32_length(&rb));
+	//printf("1st is: %" PRIi32 "\n", rb32_get_nth(&rb, 0));
+	//printf("head is %i\n", rb.head);
 	//printf()
 }
 #endif

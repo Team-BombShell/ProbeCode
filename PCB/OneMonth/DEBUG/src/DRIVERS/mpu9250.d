@@ -62,7 +62,6 @@ src/Drivers/mpu9250.d src/Drivers/mpu9250.o: ../src/Drivers/mpu9250.c \
  ../src/ASF/xmega/utils/status_codes.h \
  ../src/ASF/common/services/serial/xmega_usart/usart_serial.h \
  ../src/ASF/xmega/drivers/usart/usart.h ../src/config/conf_usart_serial.h \
- ../src/ASF/xmega/drivers/tc/tc.h \
  ../src/ASF/common/services/twi/twi_master.h \
  ../src/ASF/common/services/twi/xmega_twi/twi_master.h \
  ../src/ASF/xmega/drivers/twi/twim.h ../src/config/conf_twim.h \
@@ -213,8 +212,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../src/ASF/xmega/drivers/usart/usart.h:
 
 ../src/config/conf_usart_serial.h:
-
-../src/ASF/xmega/drivers/tc/tc.h:
 
 ../src/ASF/common/services/twi/twi_master.h:
 

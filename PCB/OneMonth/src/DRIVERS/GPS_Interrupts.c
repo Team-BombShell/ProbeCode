@@ -16,7 +16,7 @@ void init_gps_interrupts(void)
 	/*	This function will be called once to set up the XBee port for sending/receiving interrupts
 		It should not enable interrupts globally, just for receiving and sending on this one port
 	*/
-	printf("y u no work");
+//	printf("y u no work");
 	GPS_USART.CTRLA = 0b00010100; //RXint low-level, TXint low-level, DREint off;
 	gpgga_index = 0;
 	uint8_t dollar_counter = 0;
@@ -43,14 +43,14 @@ ISR (GPS_RECEIVE_INTERRUPT_VECTOR)
 		Essentially, it needs to run fast. This can be called as many as 25,000 times per second, and the cansat has other stuff to do
 	*/
 	uint8_t c = GPS_USART.DATA;
-	printf("%c", c);
+	//printf("%c", c);
 	//putchar(c);
 	//putchar(c);
 	if (current_sentence == SENTENCE_GPGGA)
 	{
 		gpgga_buff[gpgga_index] = c;
 		gpgga_index++;
-		//printf("GPGGA %i = %i", gpgga_index, gpgga_buff[gpgga_index]);
+		//printf("GPGGA %i = %i\n", gpgga_index, gpgga_buff[gpgga_index]);
 	}	
 	
 	if (c == '\n')
@@ -78,6 +78,7 @@ ISR (GPS_RECEIVE_INTERRUPT_VECTOR)
 			dollar_counter++;
 		}
 	}
+	//printf("Interrupt Executed.\n");
 	//rbu8_write(&gps_receive_buffer, &(GPS_USART.DATA), 1);
 }
 
