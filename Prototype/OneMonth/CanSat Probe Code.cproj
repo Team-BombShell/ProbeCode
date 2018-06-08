@@ -458,6 +458,12 @@
     <None Include="src\ASF\xmega\drivers\wdt\wdt.h">
       <SubType>compile</SubType>
     </None>
+    <Compile Include="src\Drivers\GPS_Interrupts.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Drivers\GPS_Interrupts.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\Drivers\IncFile1.h">
       <SubType>compile</SubType>
     </Compile>

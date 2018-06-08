@@ -47,7 +47,7 @@ void usart_init(void){
 }
 
 
-void usart_tx(USART_t* usart_channel, const char* text, ...){
+/*void usart_tx(USART_t* usart_channel, const char* text, ...){
 	char write_buffer[256];
 	va_list args;
 	va_start(args, text);
@@ -82,7 +82,7 @@ void usart_tx(USART_t* usart_channel, const char* text, ...){
 	if(usart_channel == &USARTC0){
 	usart_putchar(usart_channel,0xB3);
 	}
-}
+}*/
 
 
 char* usart_rx(USART_t* usart_channel, char* read_buffer){

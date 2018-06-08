@@ -72,6 +72,11 @@ int main (void)
 	sysclk_enable_peripheral_clock(&ADCA);
 	adc_init();
 	
+	//GPS initializations
+	init_GPS_pins_and_usart();
+	init_gps_buffers();
+	init_gps_interrupts();
+	
 	uint16_t teamID = 5186;
 	uint8_t my_time = 0;
 	uint8_t packetCount;
@@ -89,29 +94,28 @@ int main (void)
 	uint32_t initial = get_pressure();
 	uint32_t pressure;
 	uint32_t temperature;
-	//uint32_t initial_pressure = get_pressure();
+	uint32_t initial_pressure = get_pressure();
 	int32_t altitude;
 	int32_t initial_altitude = 0;
 	int32_t smooth_altitude = 0;
 	
-	//uint16_t period;
-	//uint16_t duty_cycle;
+	uint16_t period;
+	uint16_t duty_cycle;
 	double smoothing_factor = 0.90;
 	
 
 	uint8_t state = 0;
-	//printf("Is this thing on?\n");
-
+	
 	//initial_altitude = Get_altitude(101300, initial);
 	//timer_founter_init(62499, 5);
 
 	//timer_dounter_init(12500, 10);
 	
 	
-	//printf("Hello World! \n");
+	
 	
 	while(1){
-		//printf("IT'S TIME TO STOP!!!! \n");
+		sprintf("Hello World! \n"," ");
 		pressure = get_pressure();
 		temperature = getTemperature();
 		//printf("Pressure = %lu\n", pressure);
@@ -122,12 +126,16 @@ int main (void)
 		my_time = my_time + 1;
 		//timer_founter_init(6249, 10);
 		//printf("Temperature = %u \n", temperature);
-		printf("Pressure = %lu ~\n", pressure);
+		//printf("Pressure = %lu ~\n", pressure);
 		//printf("Altitude = %li \n", (int32_t)altitude);
-		delay_ms(1000);
+		const char data[256] = {(char)teamID,(char)teamID};
+		printf(data);		
 		
-		/*float data[16] = {teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats,
-			tiltX,tiltY,tiltZ,state};*/
+		delay_ms(1000);
+
+		//const char* data = (const char)teamID +  (const char)my_time+ (const char*)packetCount+ (const char*)altitude+ (const char*)pressure+ 
+		//(const char)temperature+ (const char*)voltage+ (const char*)GPSTime+ (const char*)GPSLat+ (const char*)GPSLong+ (const char*)GPSAlt+ (const char*)GPSSats+
+		//	(const char*)tiltX+(const char*)tiltY+(const char*)tiltZ+(const char*)state;
 		
 		
 		//float* data = pressure;
@@ -156,7 +164,7 @@ int main (void)
 		
 		//FS1
 		if(state==1){
-			printf("Flight State 1 \n");
+			//printf("Flight State 1 \n");
 			if(smooth_altitude-initial_altitude<300){
 				PORTE.DIRSET = 0b00000010;	//Activate Camera
 				PORTE.OUTSET = 0b00000010;	//Activate Camera
@@ -169,7 +177,7 @@ int main (void)
 		
 		//FS2
 		if(state==2){
-			printf("Flight State 2 \n");
+			//printf("Flight State 2 \n");
 			if(smooth_altitude-altitude<1 && altitude-initial_altitude<100){
 				PORTA.DIRSET = 0b00001000; //Activate Buzzer
 				PORTA.OUTSET = 0b00001000; //Activate Buzzer
@@ -285,3 +293,58 @@ void blink (int time_on, int time_off){
 }
 
 
+
+
+//I stole this from Thomas it does cool GPS things
+
+	if (last_finished != SENTENCE_NONE)
+	{
+		if (last_finished == SENTENCE_GPGGA)
+		{
+			//printf("GGA!!!\n");
+			ATOMIC_BLOCK (ATOMIC_RESTORESTATE)
+			{
+				memcpy(gpstmp, gpgga_buff, 85);
+			}
+			// 				uint8_t* gpsstr = "$GPGGA,052430.779,3443.3629,N,08638.2812,W,1,05,1.74,188.1,M,-30.4,M,,*58";
+			// 				strcpy(gpstmp, gpsstr);
+			gpstmp[packetlen(gpstmp)] = '\0';
+			//printf(gpstmp);
+			//putchar('\n');
+			
+			//usart_serial_write_packet(&XBEE_USART, gpstmp, 85);
+			tempgpsdata = getGPSDatafromNMEA(gpstmp, strlen(gpstmp));
+			//printf("test");
+			//printf("%c",tempgpsdata->hour[0]);
+			//printf("test2\n");
+			//if (strlen(tempgpsdata->altitude) > 1)
+			//	printf("Altitude: %s\n", tempgpsdata->altitude);
+			
+			//printf("no of sats: %s\n", tempgpsdata->noofsatellites);
+			//printf("Altitude: %u, minutes: %u, valid: %u\n", (uint16_t)tempgpsdata->altitude, tempgpsdata->minutes, tempgpsdata->fix_status ? 1 : 0);
+			//GPSdata->altitude = tempgpsdata->altitude;
+			GPSdata = tempgpsdata;
+			//memcpy(GPSdata->noofsatellites, tempgpsdata->noofsatellites, 3);
+			last_finished = SENTENCE_NONE;
+			
+			if (GPSdata.fix_status)
+			{
+				uint32_t GPS_secs = 3600 * (uint32_t)GPSdata.hour + 60 * (uint32_t)GPSdata.minutes + (uint32_t)GPSdata.seconds;
+				uint32_t safetime;
+				ATOMIC_BLOCK (ATOMIC_RESTORESTATE)
+				{
+					safetime = time_ms;
+				}
+				gps_local_delta = GPS_secs - safetime;
+				got_good_time = 1;
+			}
+			// 				uint16_t delta;
+			// 				ATOMIC_BLOCK (ATOMIC_RESTORESTATE)
+			// 				{
+			// 					delta = time_ms - begin_parse;
+			// 				}
+			// 				printf("Difference is %u\n", delta);
+		}
+	}
+}
+}
