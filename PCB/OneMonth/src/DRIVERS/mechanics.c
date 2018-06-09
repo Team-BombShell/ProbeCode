@@ -16,7 +16,8 @@ void heatshield_servo(void){
 	delay_ms(2000);
 	//timer_counter_init(624,10);
 	
-}
+}//not this lol
+ //tbh I'm not sure if we're using anything in here...
 
 void heatshield_solenoid(PORT_t* port){
 	(*port).DIRSET = 0b10000000;
@@ -25,21 +26,21 @@ void heatshield_solenoid(PORT_t* port){
 
 void heatshield_hotwire (void){
 	PORTD.DIR |= 0b00000010;
-	PORTD.OUT |= 0b00000010; //TODO: fix these port addresses
+	PORTD.OUT |= 0b00000010; //TO DO: fix these port addresses
 	delay_ms(4000);
 	PORTD.OUT &= 0b11111101;
 }
 
 void parachute_hotwire (void) {
 	PORTD.DIR |= 0b00000010;
-	PORTD.OUT |= 0b00000010; //TODO: fix these port addresses
+	PORTD.OUT |= 0b00000010; //TO DO: fix these port addresses
 	delay_ms(4000);
 	PORTD.OUT &= 0b11111101;
 }
 
 void heatshield_detatch_hotwire(void){
 	PORTD.DIR |= 0b00000010;
-	PORTD.OUT |= 0b00000010; //TODO: fix these port addresses
+	PORTD.OUT |= 0b00000010; //TO DO: fix these port addresses
 	delay_ms(4000);
 	PORTD.OUT &= 0b11111101;	
 }

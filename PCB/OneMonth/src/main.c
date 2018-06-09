@@ -49,6 +49,17 @@
 
 extern uint8_t state;
 //void blink (int, int);
+uint16_t packetlen(const uint8_t* buff);
+uint16_t packetlen(const uint8_t* buff)
+{
+	uint16_t i = 0;
+	for (i = 0; i < 1024; i++)
+	{
+		if (buff[i] == '\n')
+		return i;
+	}
+	return 1024;
+}
 
 int main (void)
 {
@@ -74,7 +85,7 @@ int main (void)
 //	timer_founter_init(3124, 10);
 	sysclk_enable_peripheral_clock(&TCE0);
 	sysclk_enable_peripheral_clock(&TCC0);
-	timer_counter_init();
+	//timer_counter_init(6249, 10);
 	//heatshield_servo();
 		
 	sysclk_enable_peripheral_clock(&USARTC0);
@@ -88,6 +99,17 @@ int main (void)
 	sysclk_enable_peripheral_clock(&ADCA);
 	adc_init();
 	
+	twi_options_t m_options = {
+		.speed = 400000,
+		.speed_reg = TWI_BAUD(32000000, 400000),
+	};
+	
+	sysclk_enable_peripheral_clock(&TWIC);
+	twi_master_init(&TWIC, &m_options);
+	twi_master_enable(&TWIC);
+	init_imu();
+	
+	
 	
 	//printf("Do you work?\n");
 	//printf("Hi");
@@ -97,18 +119,9 @@ int main (void)
 	GPS_data_t gps_data;
 	uint8_t got_good_time = 0;
 	int32_t gps_local_delta; //local time + this = gps time (ish)
-	//uint16_t packetlen(const uint8_t* buff);
-	uint16_t packetlen(const uint8_t* buff)
-	{
-		uint16_t i = 0;
-		for (i = 0; i < 1024; i++)
-		{
-			if (buff[i] == '\n')
-			return i;
-		}
-		return 1024;
-	}
+	
 	uint32_t time_ms;
+	uint32_t cycles = 0;
 	
 	
 	uint16_t teamID = 5186;
@@ -136,6 +149,9 @@ int main (void)
 	int32_t initial_altitude = 0;
 	int32_t smooth_altitude = 0;
 	int32_t max_altitude = 0;
+	float smooth_x;
+	float smooth_y;
+	float smooth_z;
 	
 	//uint16_t period;
 	//uint16_t duty_cycle;
@@ -156,12 +172,12 @@ int main (void)
 	//timer_counter_init(6249,10);
 	//TCD0.INTCTRLA = 0b00000001;
 	
-	PORTD_DIRSET = 0b00100000;
-	PORTD_OUTCLR = 0b00100000;
-	delay_ms(100);
-	PORTD_OUTSET = 0b00100000;
-	delay_ms(1);
-	PORTD_OUTCLR = 0b00100000;
+// 	PORTD_DIRSET = 0b00100000;
+// 	PORTD_OUTCLR = 0b00100000;
+// 	delay_ms(100);
+// 	PORTD_OUTSET = 0b00100000;
+// 	delay_ms(1);
+// 	PORTD_OUTCLR = 0b00100000;
 	//delay_ms(5000);
 	//printf("Hello World! \n");
 
@@ -182,7 +198,7 @@ int main (void)
 // 		buzzer_on();
 //  	PORTA_DIR = 0b00011110;
 //  	PORTA_OUT = 0b00011110;
-//  	elay_ms(250);
+//  	delay_ms(250);
 //  	PORTA_OUT = 0b00000000;
 //  	delay_ms(250);
 		
@@ -236,13 +252,29 @@ int main (void)
 		//printf("Temperature = %u \n", temperature);
 		//printf("Pressure = %lu ~\n", pressure);
 		//printf("Altitude = %li \n", (int32_t)altitude);
-		delay_ms(500);
+		
+		imu_data_t imudata = imu_update(cycles);
+		tiltX = imudata.pitch;
+		tiltY = imudata.roll;
+		tiltZ = imudata.yaw;
+		
+		smooth_x = (smoothing_factor * tiltX + (1.0-smoothing_factor)*smooth_x);
+		smooth_y = (smoothing_factor * tiltY + (1.0-smoothing_factor)*smooth_y);
+		smooth_z = (smoothing_factor * tiltZ + (1.0-smoothing_factor)*smooth_z);
+		//X -21 Y 4.4    Z -11.5
+		//delay_ms(500);
+		
+		PORTA_DIR = 0b00011110;
+		PORTA_OUT = 0b00011110;
+		delay_ms(250);
+		PORTA_OUT = 0b00000000;
+		delay_ms(250);
 		
 		/*float data[16] = {teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats,
 			tiltX,tiltY,tiltZ,state};*/
 		//temperature = 42;
 		//NEED TO MOVE FLIGHT STATE BACK TO THE END OF THIS LINE
-		printf("$%u,%"PRIu32",%u,%"PRIi32",%"PRIi32",%"PRIi32",%f,%"PRIi32",%"PRIi32",%"PRIi32",%"PRIi32",%"PRIi32",%f,%f,%f,%u\n",teamID,my_time,packetCount,altitude,pressure,(TEMP + 50) / 100,voltage,GPSTime,GPSLat,GPSLong,GPSAlt,GPSSats,tiltX,tiltY,tiltZ,state);
+		printf("$%u,%"PRIu32",%u,%"PRIi32",%"PRIi32",%"PRIi32",%f,%"PRIi32",%"PRIi32",%"PRIi32",%"PRIi32",%"PRIi32",%f,%f,%f,%u\n",teamID,my_time,packetCount,altitude,pressure,(TEMP + 50) / 100,voltage,GPSTime,GPSLat,GPSLong,GPSAlt,GPSSats,smooth_x,smooth_y,smooth_z,state);
 		packetCount++;
 		//float* data = pressure;
 		//char data = printf("Team ID: %u ~\nMy Time: %u ~\nPacket Count: %u ~\nAltitude: %lu ~\nPressure: %lu ~\nTemperature: %lu ~\nVoltage: %f ~\nGPS Time: %lu ~\nGPS Lat: %lu ~\nGPS Long: %lu ~\nGPS Alt: %lu ~\nGPS Sats: %lu ~\nTilt X: %f ~\nTilt Y: %f ~\nTilt Z: %f ~\nState: %u ~\n\n", teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats, tiltX, tiltY, tiltZ, state);	
@@ -260,8 +292,8 @@ int main (void)
 		//FS0
 		if(state==0){
 			//printf("Flight State 0 \n");
-			PORTE.DIRSET = 0b01010101;
-			PORTE.OUTSET = 0b01010101;
+			//PORTE.DIRSET = 0b01010101;
+			//PORTE.OUTSET = 0b01010101;
 			
 			servo_counter(.75);
 			//PORTA.OUT = 0b00001000; //Hopefully this does the buzzer... buzzer is really quiet rn, gotta fix that. (this is just for testing)
@@ -280,11 +312,10 @@ int main (void)
 		if(state==1){
 			//printf("Flight State 1 \n");
 			if(altitude-initial_altitude<300){
-				PORTE.DIRSET = 0b00000010;	//Activate Camera
-				PORTE.OUTSET = 0b00000010;	//Activate Camera
-				PORTA.DIRSET = 0b10000000;	//Detach Heat Shield
-				PORTA.OUTSET = 0b10000000;	//Detach Heat Shield
-				//Deploy Parachute
+				//PORTE.DIRSET = 0b00000010;	//Activate Camera
+				//PORTE.OUTSET = 0b00000010;	//Activate Camera
+				PORTA.DIRSET = 0b10000000;	//Detach Heat Shield and deploy parachute
+				PORTA.OUTSET = 0b10000000;	//Detach Heat Shield and deploy parachute
 				state = 2;
 			}
 		}

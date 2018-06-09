@@ -56,11 +56,18 @@ bool imu_is_data_ready(void)
 
 imu_data_t imu_update(uint16_t cycles)
 {
-	if(cycles % MPU_UPDATE_DIV == 0)
-	{
-		data = read_mpu9250(imu);
-	}
+// 	if(cycles % MPU_UPDATE_DIV == 0)
+// 	{
+ 		data = read_mpu9250(imu);
+// 	}
 	
+	printf("Acc Data: %i %i %i\n", data.acc_x, data.acc_y, data.acc_z);
+	//printf("%i, %i, %i\n", data.gyro_x, data.gyro_y, data.gyro_z);
+	
+	
+	data.gyro_x -= -21;
+	data.gyro_y -= 4.4;
+	data.gyro_z -= -11.5;
 	
 	MahonyAHRSupdate(	mapdouble((double)data.gyro_x+(GYR_X_OFF), -32768.0, 32767.0, -2000, 2000),
 						mapdouble((double)data.gyro_y+(GYR_Y_OFF), -32768.0, 32767.0, -2000.0, 2000.0),
@@ -74,10 +81,14 @@ imu_data_t imu_update(uint16_t cycles)
 	imudata.yaw   = atan2(2.0 * (q1 * q2 + q0 * q3), q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3);
 	imudata.pitch = -asin(2.0 * (q1 * q3 - q0 * q2));
 	imudata.roll  = atan2(2.0 * (q0 * q1 + q2 * q3), q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3);
+	imudata.pitch = atan((float)(data.acc_y)/(float)data.acc_z);
+	imudata.roll = atan((float)data.acc_x/(float)data.acc_z);
 	imudata.pitch *= 180.0 / PI;
 	imudata.yaw   *= 180.0 / PI;	// yaw = compass heading
 	//imudata.yaw	  += 4.17;		//WMM2015 magnetic declination for Stephenville TX
 	imudata.roll  *= 180.0 / PI;
+	
+	
 	
 	return imudata;
 }

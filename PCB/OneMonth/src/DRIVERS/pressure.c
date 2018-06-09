@@ -97,7 +97,7 @@ PressData get_pressure(void){ //refer to the datasheet for these calculations.
 	
 	int32_t dT = (int64_t)D2 - (int64_t)C5 * 256; // Runs calculations to get dT
 	int32_t TEMP = 2000 + (int64_t)dT * (int64_t)C6 / 8388608; // Finds actual temp
-	//printf("TEMP: %li", TEMP);
+	printf("TEMP: %li", TEMP);
 	
 	int64_t OFF =	(int64_t)C2 * 131072 + ((int64_t)C4 * (int64_t)dT) / 64;
 	int64_t SENS = (int64_t)C1 * 65536 + ((int64_t)C3 * (int64_t)dT) / 128; 
