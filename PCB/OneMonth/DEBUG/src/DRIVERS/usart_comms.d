@@ -74,7 +74,7 @@ src/Drivers/usart_comms.d src/Drivers/usart_comms.o: \
  ../src/ASF/xmega/drivers/wdt/wdt.h \
  ../src/ASF/xmega/boards/xmega_a1_xplained/led.h \
  ../src/Drivers/usart_comms.h ../src/register_definitions.h \
- ../src/Drivers/mechanics.h
+ ../src/Drivers/mechanics.h ../src/DRIVERS/timer_counter.h
 
 ../src/asf.h:
 
@@ -241,3 +241,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../src/register_definitions.h:
 
 ../src/Drivers/mechanics.h:
+
+../src/DRIVERS/timer_counter.h:

@@ -19,9 +19,11 @@ void heatshield_servo(void){
 }//not this lol
  //tbh I'm not sure if we're using anything in here...
 
-void heatshield_solenoid(PORT_t* port){
-	(*port).DIRSET = 0b10000000;
-	(*port).OUTSET = 0b10000000;
+void heatshield_solenoid(void){
+	PORTA.DIRSET |= 0b10000000;	//Detach Heat Shield and deploy parachute
+	PORTA.OUTSET |= 0b10000000;	//Detach Heat Shield and deploy parachute
+	delay_ms(1000);
+	PORTA.OUT &= 0b01111111;
 }
 
 void heatshield_hotwire (void){

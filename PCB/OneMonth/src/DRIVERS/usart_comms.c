@@ -8,6 +8,7 @@
 #include "Drivers/usart_comms.h"
 #include "register_definitions.h"
 #include "Drivers/mechanics.h"
+#include "DRIVERS/timer_counter.h"
 
 //extern uint8_t state;
 volatile char xbee_rx_temporary;
@@ -34,6 +35,7 @@ void usart_init(void){
 	
 	//Sends bit over Xbee
 	PORTD.DIRSET = 0b00001000;	
+	PORTD.DIRCLR = 0b00000100;
 	PORTD.OUTSET = 0b00001000;
 	
 	//Sends bit over Openlogger
@@ -43,6 +45,8 @@ void usart_init(void){
 	
 	stdio_serial_init(&USARTD0, &usart_options);
 	usart_serial_init(&USARTC0, &openlogger_usart_options);
+	
+	USARTD0.CTRLA = 0b00010000;
 }
 
 
@@ -74,8 +78,8 @@ char* usart_rx(USART_t* usart_channel, char* read_buffer){
 	
 ISR(USARTD0_RXC_vect){
 	//If we send reset things to the board
-	xbee_rx_temporary = usart_getchar(&USARTD0);
-	
+	xbee_rx_temporary = USARTD0.DATA;
+	printf("We received %c\n", xbee_rx_temporary);
 	switch(xbee_rx_temporary){
 		case '!':						//reset MCU 
 			wdt_reset_mcu();
@@ -95,17 +99,17 @@ ISR(USARTD0_RXC_vect){
 		case '^':						//deploy heatshield
 			heatshield_hotwire();
 			break;
-		case '&':						//deploy parachute
-			parachute_hotwire();
+		case '&':						//deploy parachute and detatch heatshield
+			heatshield_solenoid();
 			break;
 		case '*':						//detatching heatshield
 			heatshield_detatch_hotwire();
 			break;
 		case '(':						//buzzer on
-			buzzer_on();
+			buzzer_counter_init(104, 50);
 			break;
 		case ')':						//buzzer off
-			buzzer_off();
+			buzzer_counter_init(0, 0);
 			break;
 		case '_':						//camera on
 			camera_on();

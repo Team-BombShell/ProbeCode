@@ -11,7 +11,7 @@
 #include <asf.h>
 
 void heatshield_servo(void);
-void heatshield_solenoid(PORT_t* port);
+void heatshield_solenoid(void);
 void heatshield_hotwire (void);
 void heatshield_detatch_hotwire(void);
 void parachute_hotwire(void);

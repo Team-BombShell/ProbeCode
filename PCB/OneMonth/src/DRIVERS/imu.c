@@ -61,7 +61,7 @@ imu_data_t imu_update(uint16_t cycles)
  		data = read_mpu9250(imu);
 // 	}
 	
-	printf("Acc Data: %i %i %i\n", data.acc_x, data.acc_y, data.acc_z);
+	//printf("Acc Data: %i %i %i\n", data.acc_x, data.acc_y, data.acc_z);
 	//printf("%i, %i, %i\n", data.gyro_x, data.gyro_y, data.gyro_z);
 	
 	

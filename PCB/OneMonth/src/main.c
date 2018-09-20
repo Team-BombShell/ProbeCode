@@ -89,6 +89,7 @@ int main (void)
 	//heatshield_servo();
 		
 	sysclk_enable_peripheral_clock(&USARTC0);
+	sysclk_enable_peripheral_clock(&USARTD0);
 	sysclk_enable_peripheral_clock(&USARTD1);
 	usart_init();
 	
@@ -114,6 +115,7 @@ int main (void)
 	//printf("Do you work?\n");
 	//printf("Hi");
 
+	uint8_t openlogger[512];
 	
 	uint8_t gpstmp[85];
 	GPS_data_t gps_data;
@@ -158,13 +160,14 @@ int main (void)
 	double smoothing_factor = 0.50;
 	
 
-	uint8_t state = 0;
+	//uint8_t state = 0;
 	//printf("Is this thing on?\n");
 
 	//initial_altitude = Get_altitude(101300, initial);
 	//timer_founter_init(62499, 5);
 
 	//timer_dounter_init(12500, 10);
+	
 	init_GPS_pins_and_usart();
 	init_gps_interrupts();
 	init_gps_buffers();
@@ -187,8 +190,9 @@ int main (void)
 	pmic_init();
 	pmic_set_scheduling(PMIC_SCH_FIXED_PRIORITY);
 	cpu_irq_enable();
-	
-	
+	//while(1);
+	//heatshield_solenoid();
+	//delay_ms(2000);
 	//while(1){
 		//PORTB.OUTTGL = 0b00000001;
 		//delay_ms(1);
@@ -203,6 +207,7 @@ int main (void)
 //  	delay_ms(250);
 		
 		PressData pd = get_pressure();
+		
 		pressure = pd.P;
 		TEMP = pd.TEMP;
 // 		pressure = get_pressure();
@@ -213,7 +218,8 @@ int main (void)
 		altitude = Get_altitude(initial, pressure);
 		smooth_altitude = (int32_t)(smoothing_factor * altitude + (1-smoothing_factor)*smooth_altitude);
 		my_time = my_time + 1;
-	
+		
+		//printf("here?");
 		if (last_finished != SENTENCE_NONE)
 		{
 			//printf("Is it you?");
@@ -254,28 +260,36 @@ int main (void)
 		//printf("Altitude = %li \n", (int32_t)altitude);
 		
 		imu_data_t imudata = imu_update(cycles);
+		
 		tiltX = imudata.pitch;
 		tiltY = imudata.roll;
 		tiltZ = imudata.yaw;
-		
+	
+		//printf("What about here\n");
 		smooth_x = (smoothing_factor * tiltX + (1.0-smoothing_factor)*smooth_x);
 		smooth_y = (smoothing_factor * tiltY + (1.0-smoothing_factor)*smooth_y);
 		smooth_z = (smoothing_factor * tiltZ + (1.0-smoothing_factor)*smooth_z);
 		//X -21 Y 4.4    Z -11.5
 		//delay_ms(500);
 		
-		PORTA_DIR = 0b00011110;
-		PORTA_OUT = 0b00011110;
+		PORTA_DIR |= 0b00011110;
+		PORTA_OUT |= 0b00011110;
 		delay_ms(250);
-		PORTA_OUT = 0b00000000;
+		PORTA_OUT &= 0b11100001;
 		delay_ms(250);
+		
 		
 		/*float data[16] = {teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats,
 			tiltX,tiltY,tiltZ,state};*/
 		//temperature = 42;
 		//NEED TO MOVE FLIGHT STATE BACK TO THE END OF THIS LINE
+		
 		printf("$%u,%"PRIu32",%u,%"PRIi32",%"PRIi32",%"PRIi32",%f,%"PRIi32",%"PRIi32",%"PRIi32",%"PRIi32",%"PRIi32",%f,%f,%f,%u\n",teamID,my_time,packetCount,altitude,pressure,(TEMP + 50) / 100,voltage,GPSTime,GPSLat,GPSLong,GPSAlt,GPSSats,smooth_x,smooth_y,smooth_z,state);
+		sprintf(openlogger,"$%u,%"PRIu32",%u,%"PRIi32",%"PRIi32",%"PRIi32",%f,%"PRIi32",%"PRIi32",%"PRIi32",%"PRIi32",%"PRIi32",%f,%f,%f,%u\n",teamID,my_time,packetCount,altitude,pressure,(TEMP + 50) / 100,voltage,GPSTime,GPSLat,GPSLong,GPSAlt,GPSSats,smooth_x,smooth_y,smooth_z,state);
 		packetCount++;
+		
+		usart_serial_write_packet(&USARTC0,openlogger,strlen(openlogger));
+		
 		//float* data = pressure;
 		//char data = printf("Team ID: %u ~\nMy Time: %u ~\nPacket Count: %u ~\nAltitude: %lu ~\nPressure: %lu ~\nTemperature: %lu ~\nVoltage: %f ~\nGPS Time: %lu ~\nGPS Lat: %lu ~\nGPS Long: %lu ~\nGPS Alt: %lu ~\nGPS Sats: %lu ~\nTilt X: %f ~\nTilt Y: %f ~\nTilt Z: %f ~\nState: %u ~\n\n", teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats, tiltX, tiltY, tiltZ, state);	
 		//char sd_data = sprintf("Team ID: %u ~\nMy Time: %u ~\nPacket Count: %u ~\nAltitude: %lu ~\nPressure: %lu ~\nTemperature: %lu ~\nVoltage: %f ~\nGPS Time: %lu ~\nGPS Lat: %lu ~\nGPS Long: %lu ~\nGPS Alt: %lu ~\nGPS Sats: %lu ~\nTilt X: %f ~\nTilt Y: %f ~\nTilt Z: %f ~\nState: %u ~\n\n", teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats, tiltX, tiltY, tiltZ, state);	("Team ID: %u\nMy Time: %u\nPacket Count: %u\nAltitude: %lu\nPressure: %lu\nTemperature: %lu\nVoltage: %f\nGPS Time: %lu\nGPS Lat: %lu\nGPS Long: %lu\nGPS Alt: %lu\nGPS Sats: %lu\nTilt X: %f\nTilt Y: %f\nTilt Z: %f\nState: %u\n\n", teamID, my_time, packetCount, altitude, pressure, temperature, voltage, GPSTime, GPSLat, GPSLong, GPSAlt, GPSSats, tiltX, tiltY, tiltZ, state);	
@@ -294,8 +308,8 @@ int main (void)
 			//printf("Flight State 0 \n");
 			//PORTE.DIRSET = 0b01010101;
 			//PORTE.OUTSET = 0b01010101;
-			
-			servo_counter(.75);
+			//buzzer_counter_init(104, 50);
+			//servo_counter(.5);
 			//PORTA.OUT = 0b00001000; //Hopefully this does the buzzer... buzzer is really quiet rn, gotta fix that. (this is just for testing)
 			//printf("max alt: %"PRIi32"\n", max_altitude);
 			if ((int32_t)max_altitude - (int32_t)altitude > 50){ //Work on Velocity later, this will work for now
@@ -314,8 +328,8 @@ int main (void)
 			if(altitude-initial_altitude<300){
 				//PORTE.DIRSET = 0b00000010;	//Activate Camera
 				//PORTE.OUTSET = 0b00000010;	//Activate Camera
-				PORTA.DIRSET = 0b10000000;	//Detach Heat Shield and deploy parachute
-				PORTA.OUTSET = 0b10000000;	//Detach Heat Shield and deploy parachute
+				heatshield_solenoid();
+				delay_ms(2000);
 				state = 2;
 			}
 		}

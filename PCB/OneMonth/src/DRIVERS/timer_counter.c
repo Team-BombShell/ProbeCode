@@ -32,12 +32,14 @@ void buzzer_counter_init(uint16_t period, uint16_t duty_cycle){
   }
   
 void servo_counter(float duty_cycle){
+	PORTE.DIRSET = 0b00000001;
 	float hertz = 50; // Arbitrary hertz value, since we're using PWM, should be a 1ms period.
 	uint16_t blink_period = (uint16_t)(32000000 / (1024 * hertz) - 1);
-	TCE0.CTRLA = 0b00000101;
+	TCE0.CTRLA = 0b00000101; //div/64
 	TCE0.CTRLB = 0b00000011;
 	TCE0.PER = (uint16_t)(blink_period);
 	TCE0.CCA = TCE0.PER * (1-duty_cycle);
+	//printf("The servo should work, but of course it doesn't\n");
   }
   
 /*void timer_dounter_init(uint16_t period, uint16_t duty_cycle){

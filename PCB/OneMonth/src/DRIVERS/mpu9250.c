@@ -287,7 +287,7 @@ mpu9250_data_t read_mpu9250(mpu9250_t chip)			//read data from chip
 	mpu9250_data_t data;
 	
 	mpu9250_twi_read_multi(chip, MPU9250_INT_STATUS_REG, 2);//call the int status register to clear the system and read instant
-	while (gpio_pin_is_low(chip.int_pin));//wait for something to read (interrupt low = not interrupting, no data)
+	//while (gpio_pin_is_low(chip.int_pin));//wait for something to read (interrupt low = not interrupting, no data)
 	mpu9250_twi_read_multi(chip, MPU9250_INT_STATUS_REG,22); //21 = 20 regs + 1 because of atmel bullshit
 	data.int_status = mpu9250_twi_data[0];
 	data.acc_x = ((int16_t)mpu9250_twi_data[1])<<8;//gyro x high
